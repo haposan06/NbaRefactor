@@ -6,19 +6,25 @@ class AccessTokenValidation {
     log.logger.info(`Execute AccessTokenValidation.validate middleware . Request ${req}`);
     if (!req.decoded) {
       log.logger.error('Error in AccessTokenValidation middleware : Missing decoded');
-      res.status(400).send('Malformed HTTP Request');
+      const err = new Error('Malformed HTTP Request');
+      err.statusCode = 400;
+      next(err);
     }
     try {
       const token = await Token();
       if (!token) {
-        res.status(401).send('Forbidden external access');
+        const err = new Error('Forbidden external access');
+        err.statusCode = 401;
+        next(err);
       }
       req.access_token = token;
       next();
     }
     catch (error) {
       log.logger.error(`Error in AccessTokenValidation middleware : ${error}`);
-      res.status(401).send('Forbidden access');
+      const err = new Error('Forbidden external access');
+      err.statusCode = 401;
+      next(err);
     }
   }
 }

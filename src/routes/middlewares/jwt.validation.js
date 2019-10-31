@@ -6,7 +6,9 @@ class JwtValidation {
     log.logger.info(`JwtValidation.validate middleware . Request ${req}`);
     if (!req.rawBody) {
       log.logger.error('Error in JwtValidation middleware : Missing JWT Token');
-      res.status(400).send('Malformed HTTP Request');
+      const err = new Error('Malformed HTTP Request');
+      err.statusCode = 400;
+      next(err);
     }
     try {
       const decoded = await jwt(req.rawBody, process.env.JWT_KEY);
@@ -16,7 +18,9 @@ class JwtValidation {
     }
     catch (error) {
       log.logger.error(`Error in JwtValidation middleware : ${error}`);
-      res.status(401).send('Forbidden access');
+      const err = new Error('Forbidden access');
+      err.statusCode = 401;
+      next(err);
     }
   }
 }

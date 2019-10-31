@@ -265,17 +265,19 @@ class ActivityStore {
       return payload;
     }
     catch (exception) {
-      throw new Error(exception);
+      log.logger.error(`ActivityStore save error: ${exception}`);
+      throw exception;
     }
   }
 
   static async publish(req) {
     try {
-      const payload = `Publish===>${jsonCircular.stringify(req)}`;
+      const payload = 'Publish===>';
       return payload;
     }
     catch (exception) {
-      throw new Error(exception);
+      log.logger.error(`ActivityStore publish error: ${exception}`);
+      throw exception;
     }
   }
 
@@ -285,7 +287,8 @@ class ActivityStore {
       return payload;
     }
     catch (exception) {
-      throw new Error(exception);
+      log.logger.error(`ActivityStore validate error: ${exception}`);
+      throw exception;
     }
   }
 
@@ -295,7 +298,8 @@ class ActivityStore {
       return payload;
     }
     catch (exception) {
-      throw new Error(exception);
+      log.logger.error(`ActivityStore stop error: ${exception}`);
+      throw exception;
     }
   }
 
@@ -309,7 +313,8 @@ class ActivityStore {
       return await updateDataExtensionDE(getProductInfoBody, req.access_token, decodedArgs);
     }
     catch (exception) {
-      throw new Error(exception);
+      log.logger.error(`ActivityStore execute error: ${exception}`);
+      throw exception;
     }
   }
 }
