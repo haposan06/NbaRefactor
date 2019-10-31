@@ -1,0 +1,81 @@
+{
+    "workflowApiVersion": "1.1",
+    "metaData": {
+        "icon": "images/icon.PNG",
+        "iconSmall": "images/icon.PNG",
+        "category": "custom",
+        "version": "2.0"
+    },
+
+    "type": "Rest",
+    "lang": {
+        "en-US": {
+            "name": "PACS_NBA",
+            "description": "Get Next Best Action"
+        }
+
+    },
+
+    "arguments": {
+        "execute": {
+            "inArguments": [{
+                "decisionId" : "",
+                "journeyStepCode" : "",
+                "campaignId" : "",
+                "campaignName" : "",
+                "clientId" : "",
+                "dataExtensionName" : "",
+                "campaignType" : "",
+                "campaignProductType" : "",
+                "contactId" : "",
+                "override" : "",
+                "accountId" : "",
+                "microSegment" : ""
+            }],
+            "outArguments": [], 
+            "url": "https://api-sit.prudential.com.sg/sit-internal/sandbox/nba/journeybuilder/execute",
+            "verb": "POST",
+            "body": "", 
+            "header": "", 
+            "format": "json",
+            "useJwt": true,
+            "timeout": 10000
+        }
+    },
+
+    "configurationArguments": {
+        "applicationExtensionKey": "",
+        "save": {
+            "url": "https://api-sit.prudential.com.sg/sit-internal/sandbox/nba/journeybuilder/save",
+            "body": "", 
+            "verb": "POST",
+            "useJwt": true
+        },
+        "publish": {
+            "url": "https://api-sit.prudential.com.sg/sit-internal/sandbox/nba/journeybuilder/publish",
+            "verb": "POST",
+            "body": "", 
+            "useJwt": true
+        },
+        "validate": {
+            "url": "https://api-sit.prudential.com.sg/sit-internal/sandbox/nba/journeybuilder/validate",
+            "verb": "POST",
+            "body": "", 
+            "useJwt": true
+        },
+        "stop" : {
+            "url" : "https://api-sit.prudential.com.sg/sit-internal/sandbox/nba/journeybuilder/stop",
+            "verb" : "POST",
+            "body" : "",
+            "useJwt" : true
+        }
+    },
+    "userInterfaces":
+    {
+        "configModal": {
+            "height": 700,
+            "width": 1000,
+            "fullscreen": false
+        }
+    }
+}

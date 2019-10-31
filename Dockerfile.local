@@ -1,0 +1,25 @@
+# Copyright (c) 2019 PACS-SRE
+
+FROM docker-pacs-sre.pruregistry.intranet.asia:8443/base/node:11-alpine
+
+LABEL maintainer="Quirino Gervacio <gervacio.quirino.alegre@prudential.com.sg>"
+
+WORKDIR /home/appuser/
+
+COPY . .
+
+RUN rm -rf .git && \
+    rm -rf node_modules \
+    rm -rf package-lock.json
+
+# don't ask me why
+RUN npm install --unsafe-perm binding -s --production=false || true && \
+    npm install || true && \
+    npm install --only=dev
+
+RUN chown -R appuser:appgroup . && \
+    chmod -R 555 .
+
+USER appuser
+
+ENTRYPOINT ["npm", "start"]

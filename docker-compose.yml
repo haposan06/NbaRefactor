@@ -1,0 +1,20 @@
+# Copyright (c) 2019 PACS-SRE
+
+version: "3"
+
+services:
+  pacscrm-nba-local:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    ports:
+    - 1337:1337    
+    image: docker-pacs-crm.pruregistry.intranet.asia:8443/pacscrm/nba-local:${TAG}
+
+  pacscrm-nba-sre:
+    build:
+      context: .
+      dockerfile: Dockerfile.sre
+    ports:
+    - 1337:1337 
+    image: docker-pacs-crm.pruregistry.intranet.asia:8443/pacscrm/nba:${TAG}

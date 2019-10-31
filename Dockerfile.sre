@@ -1,0 +1,18 @@
+# Copyright (c) 2019 PACS-SRE
+
+FROM docker-pacs-sre.pruregistry.intranet.asia:8443/base/node:11-alpine
+
+LABEL maintainer="Quirino Gervacio <gervacio.quirino.alegre@prudential.com.sg>"
+
+WORKDIR /home/appuser/
+
+COPY . .
+
+RUN rm -rf .git .sre Dockerfile docker-compose.yml
+
+RUN chown -R appuser:appgroup . && \
+    chmod -R 755 .
+
+USER appuser
+
+ENTRYPOINT ["npm", "start"]

@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: crm-nba
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: crm-nba
+    spec:
+      containers:
+      - name: crm-nba
+        image: delocontainer007.azurecr.io/crm-nba
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000

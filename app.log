@@ -1,0 +1,102 @@
+2019-10-28 01:59:47 [32minfo[39m: 	Request: [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 01:59:47 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 01:59:47 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Response [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 01:59:47 [32minfo[39m: 	Response: [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 02:16:04 [32minfo[39m: 	Request: [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 02:16:04 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 02:16:04 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Response [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 02:16:04 [32minfo[39m: 	Response: [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 02:17:17 [32minfo[39m: 	AKS-NBA express in development {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 02:17:34 [32minfo[39m: 	Request: {"headers":{"content-type":"application/json","user-agent":"PostmanRuntime/7.17.1","accept":"*/*","cache-control":"no-cache","postman-token":"17722194-1ae8-43ad-841b-436a71a7a3a1","host":"localhost:3000","accept-encoding":"gzip, deflate","content-length":"19","connection":"keep-alive"},"rawHeaders":["Content-Type","application/json","User-Agent","PostmanRuntime/7.17.1","Accept","*/*","Cache-Control","no-cache","Postman-Token","17722194-1ae8-43ad-841b-436a71a7a3a1","Host","localhost:3000","Accept-Encoding","gzip, deflate","Content-Length","19","Connection","keep-alive"],"method":"POST","url":"/nba/logout","params":{}} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 02:17:34 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 02:17:34 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Response [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 03:44:24 [32minfo[39m: 	AKS-NBA express in development {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 03:44:32 [32minfo[39m: 	Request: {"headers":{"content-type":"application/json","user-agent":"PostmanRuntime/7.17.1","accept":"*/*","cache-control":"no-cache","postman-token":"5f21fd6c-15dd-42bc-9178-e6229648cf51","host":"localhost:3000","accept-encoding":"gzip, deflate","content-length":"19","connection":"keep-alive"},"rawHeaders":["Content-Type","application/json","User-Agent","PostmanRuntime/7.17.1","Accept","*/*","Cache-Control","no-cache","Postman-Token","5f21fd6c-15dd-42bc-9178-e6229648cf51","Host","localhost:3000","Accept-Encoding","gzip, deflate","Content-Length","19","Connection","keep-alive"],"method":"POST","url":"/nba/logout","params":{}} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 03:44:32 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-28 03:44:32 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Response [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:08:19 [32minfo[39m: 	AKS-NBA express in development {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:08:34 [32minfo[39m: 	Request: /nba/logout, Content: [object Object] Req Body : [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:08:34 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:08:34 [32minfo[39m: 	Response: undefined {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:08:34 [32minfo[39m: 	Request : [object Object] - Decode : JsonWebTokenError: jwt malformed {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:08:34 [32minfo[39m: 	Execute AccessTokenValidation.validate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:08:34 [32minfo[39m: 	MC Token Req body -> {"grant_type":"client_credentials"} {"level":"\u001b[32minfo\u001b[39m"}
+{"message":"\tAKS-NBA express in development","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:12:40.156Z"}
+{"message":"\tRequest: /nba/logout, Content: {}","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:12:44.755Z"}
+{"message":"\tExecute AuthStore.authenticate middleware . Request [object Object]","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:12:44.756Z"}
+{"message":"\tResponse: undefined","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:12:44.757Z"}
+{"message":"\tRequest : [object Object] - Decode : JsonWebTokenError: jwt malformed","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:12:44.757Z"}
+{"message":"\tExecute AccessTokenValidation.validate middleware . Request [object Object]","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:12:44.757Z"}
+{"message":"\tMC Token Req body -> {\"grant_type\":\"client_credentials\"}","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:12:44.757Z"}
+{"message":"\tAKS-NBA express in development","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:16:17.164Z"}
+{"message":"\tRequest: /nba/logout, Content: {} - Request Body : {}","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:16:26.981Z"}
+{"message":"\tExecute AuthStore.authenticate middleware . Request [object Object]","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:16:26.982Z"}
+{"message":"\tResponse: undefined","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:16:26.982Z"}
+{"message":"\tRequest : [object Object] - Decode : JsonWebTokenError: jwt malformed","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:16:26.983Z"}
+{"message":"\tExecute AccessTokenValidation.validate middleware . Request [object Object]","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:16:26.983Z"}
+{"message":"\tMC Token Req body -> {\"grant_type\":\"client_credentials\"}","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:16:26.983Z"}
+{"message":"\tAKS-NBA express in development","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:17:39.880Z"}
+{"message":"\tRequest: /nba/logout, Content: {} - Request Body : {}","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:17:51.366Z"}
+{"message":"\tExecute AuthStore.authenticate middleware . Request [object Object]","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:17:51.367Z"}
+{"message":"\tResponse: undefined","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:17:51.368Z"}
+{"message":"\tRequest : [object Object] - Decode : JsonWebTokenError: jwt malformed","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:17:51.368Z"}
+{"message":"\tExecute AccessTokenValidation.validate middleware . Request [object Object]","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:17:51.368Z"}
+{"message":"\tMC Token Req body -> {\"grant_type\":\"client_credentials\"}","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:17:51.368Z"}
+{"message":"\tRequest: /nba/logout, Content: {} - Request Body : {}","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:18:40.658Z"}
+{"message":"\tExecute AuthStore.authenticate middleware . Request [object Object]","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:18:40.658Z"}
+{"message":"\tResponse: undefined","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:18:40.658Z"}
+{"message":"\tRequest : [object Object] - Decode : JsonWebTokenError: jwt malformed","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:18:40.658Z"}
+{"message":"\tExecute AccessTokenValidation.validate middleware . Request [object Object]","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:18:40.659Z"}
+{"message":"\tMC Token Req body -> {\"grant_type\":\"client_credentials\"}","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:18:40.659Z"}
+{"message":"\tAKS-NBA express in development","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:21:25.743Z"}
+{"message":"\tRequest: /nba/logout, Content: {\"action\":\"logout\"} - Request Body : {\"action\":\"logout\"}","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:22:12.297Z"}
+{"message":"\tExecute AuthStore.authenticate middleware . Request [object Object]","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:22:12.298Z"}
+{"message":"\tResponse: undefined","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:22:12.298Z"}
+{"message":"\tRequest : [object Object] - Decode : JsonWebTokenError: jwt malformed","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:22:12.298Z"}
+{"message":"\tExecute AccessTokenValidation.validate middleware . Request [object Object]","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:22:12.299Z"}
+{"message":"\tMC Token Req body -> {\"grant_type\":\"client_credentials\"}","level":"\u001b[32minfo\u001b[39m","timestamp":"2019-10-29T05:22:12.299Z"}
+2019-10-29 05:24:24 [32minfo[39m: 	AKS-NBA express in development {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:24:59 [32minfo[39m: 	Request: /nba/logout, Content: [object Object] Req Body : [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:24:59 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:24:59 [32minfo[39m: 	Response: undefined {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:24:59 [32minfo[39m: 	Request : [object Object] - Decode : JsonWebTokenError: jwt malformed {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:24:59 [32minfo[39m: 	Execute AccessTokenValidation.validate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:24:59 [32minfo[39m: 	MC Token Req body -> {"grant_type":"client_credentials"} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:27:24 [32minfo[39m: 	AKS-NBA express in development {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:27:30 [32minfo[39m: 	Request: /nba/logout Req Body : {"action":"logout"} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:27:30 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:27:30 [32minfo[39m: 	Response: undefined {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:27:30 [32minfo[39m: 	Request : [object Object] - Decode : JsonWebTokenError: jwt malformed {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:27:30 [32minfo[39m: 	Execute AccessTokenValidation.validate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:27:30 [32minfo[39m: 	MC Token Req body -> {"grant_type":"client_credentials"} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:30:55 [32minfo[39m: 	AKS-NBA express in development {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:31:08 [32minfo[39m: 	Request: /nba/logout Body : {"action":"logout"} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:31:08 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:31:08 [32minfo[39m: 	Response: Status: function status(code) {
+  this.statusCode = code;
+  return this;
+} Body : undefined {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:31:08 [32minfo[39m: 	Request : [object Object] - Decode : JsonWebTokenError: jwt malformed {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:31:08 [32minfo[39m: 	Execute AccessTokenValidation.validate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:31:08 [32minfo[39m: 	MC Token Req body -> {"grant_type":"client_credentials"} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:37:27 [32minfo[39m: 	AKS-NBA express in development {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:37:33 [32minfo[39m: 	Request: /nba/logout Body : {"action":"logout"} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:37:33 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:37:33 [32minfo[39m: 	Request : [object Object] - Decode : JsonWebTokenError: jwt malformed {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:37:33 [32minfo[39m: 	Execute AccessTokenValidation.validate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:37:33 [32minfo[39m: 	MC Token Req body -> {"grant_type":"client_credentials"} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:37:33 [32minfo[39m: 	Response: Status: 200 Body : undefined {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:13 [32minfo[39m: 	AKS-NBA express in development {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:22 [32minfo[39m: 	Request: /nba/logout Body : {"action":"logout"} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:22 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:22 [32minfo[39m: 	Request : [object Object] - Decode : JsonWebTokenError: jwt malformed {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:22 [32minfo[39m: 	Execute AccessTokenValidation.validate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:22 [32minfo[39m: 	MC Token Req body -> {"grant_type":"client_credentials"} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:22 [32minfo[39m: 	Response: Status: 200 Body : undefined {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:34 [32minfo[39m: 	Request: /nba/logout Body : {"action":"logout"} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:34 [32minfo[39m: 	Execute AuthStore.authenticate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:34 [32minfo[39m: 	Request : [object Object] - Decode : JsonWebTokenError: jwt malformed {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:34 [32minfo[39m: 	Execute AccessTokenValidation.validate middleware . Request [object Object] {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:34 [32minfo[39m: 	MC Token Req body -> {"grant_type":"client_credentials"} {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 05:45:34 [32minfo[39m: 	Response: Status: 200 Body : undefined {"level":"\u001b[32minfo\u001b[39m"}
+2019-10-29 06:11:44 [32minfo[39m: 	AKS-NBA express in development {"level":"\u001b[32minfo\u001b[39m"}

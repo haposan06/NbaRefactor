@@ -1,0 +1,17 @@
+#!/bin/bash
+
+export ACCOUNT_SALESFORCE_DE=NBA_PolicyHolder_Master
+export WS_URL=https://api-sit.prudential.com.sg/sit-internal/sandbox/api/journey
+export AUTHENTICATIONBASE_URI=https://mc47m890bhg94bfxn203z368033q.auth.marketingcloudapis.com/
+export CLIENT_ID=alfqzbpzfqq241yvq1o8en4u
+export CLIENT_SECRET=lbSHvNNLsJYmHEBkSoVZxtCu
+export DATA_EXTENSION_KEY=NBA_Journey_KO_Result
+export ERROR=error
+export JWT_KEY=QbNZd0eUTP4quizMZW4B0Jwo8k31iEnJP79OJelk495JlFkZ4XhK6l-uQygcAzAhRuLlxkl7ApROCYPDVVUF9_yLzwEvyrqzJg_x_YW2b_RFxcRQoXI7BGacfaYJQ2Dpyt-2YXtSp4KIS04IsgqaUy-DTQEHxkY7Hsw4S3BI9Ew7wDM6uZ1pfiNtByvcvo5taqGBoAoxD2IFIhPNIPkHzjsiV2OKa132Bk5w0R-OOnas_oZqt_SVhV0jck-7oQ2
+export KO_STATUS_NO=N
+export KO_STATUS_YES=Y
+export PLATFORM=mc
+export REST_BASE_URI=https://mc47m890bhg94bfxn203z368033q.rest.marketingcloudapis.com/
+export SOAP_BASE_URI=https://mc47m890bhg94bfxn203z368033q.soap.marketingcloudapis.com/
+export WEBSITE_HTTPLOGGING_RETENTION_DAYS=7
+export WS_URL=https://api-sit.prudential.com.sg/sit-internal/sandbox/api/journey

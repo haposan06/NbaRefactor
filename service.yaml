@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: crm-nba
+  labels:
+    app: crm-nba
+spec:
+  selector:
+    app: crm-nba
+  ports:
+  - port: 3000
+    protocol: TCP
+    nodePort: 30061
+  type: LoadBalancer
