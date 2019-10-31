@@ -92,7 +92,7 @@ const logMiddleware = (req, res, next) => {
   //   url: req.url,
   //   params: req.params
   // };
-  logger.info(`Request: ${req.url} Body : ${JSON.stringify(req.body)}`);
+  logger.info(`Request: ${req.url} Body : ${req.rawBody}`);
   res.on('finish', () => {
     logger.info(`Response: Status: ${res.statusCode} Body : ${res.body}`);
   });
