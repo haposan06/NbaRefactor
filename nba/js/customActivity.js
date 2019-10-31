@@ -9,7 +9,6 @@ define(['postmonger'], function (Postmonger) {
     let API_PATH = '';
     let authTokens = {};
     let payload = {};
-    let uponLoadJourneyStep = '';
    
     // Configuration variables
     let campaignId = '';
@@ -84,9 +83,6 @@ define(['postmonger'], function (Postmonger) {
     function initialize(data) {
         
         if (data) {
-            uponLoadJourneyStep = data.arguments.execute.inArguments[0].journeyStepCode;
-            console.log('uponLoadJourneyStep - >' + uponLoadJourneyStep);
-            $("#journeyStep").val(uponLoadJourneyStep);
             payload = data;
         }
         //console.log('DATA - > ' + data);
