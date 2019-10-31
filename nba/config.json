@@ -33,7 +33,7 @@
                 "microSegment" : ""
             }],
             "outArguments": [], 
-            "url": "https://api-sit.prudential.com.sg/sit-internal/sandbox/nba/journeybuilder/execute",
+            "url": "https://id-nodejs-app.azurewebsites.net/nba/journeybuilder/execute",
             "verb": "POST",
             "body": "", 
             "header": "", 
@@ -46,25 +46,25 @@
     "configurationArguments": {
         "applicationExtensionKey": "",
         "save": {
-            "url": "https://api-sit.prudential.com.sg/sit-internal/sandbox/nba/journeybuilder/save",
+            "url": "https://id-nodejs-app.azurewebsites.net/nba/journeybuilder/save",
             "body": "", 
             "verb": "POST",
             "useJwt": true
         },
         "publish": {
-            "url": "https://api-sit.prudential.com.sg/sit-internal/sandbox/nba/journeybuilder/publish",
+            "url": "https://id-nodejs-app.azurewebsites.net/nba/journeybuilder/publish",
             "verb": "POST",
             "body": "", 
             "useJwt": true
         },
         "validate": {
-            "url": "https://api-sit.prudential.com.sg/sit-internal/sandbox/nba/journeybuilder/validate",
+            "url": "https://id-nodejs-app.azurewebsites.net/nba/journeybuilder/validate",
             "verb": "POST",
             "body": "", 
             "useJwt": true
         },
         "stop" : {
-            "url" : "https://api-sit.prudential.com.sg/sit-internal/sandbox/nba/journeybuilder/stop",
+            "url" : "https://id-nodejs-app.azurewebsites.net/nba/journeybuilder/stop",
             "verb" : "POST",
             "body" : "",
             "useJwt" : true
