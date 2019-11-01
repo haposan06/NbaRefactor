@@ -2,9 +2,9 @@ const express = require('express');
 const ActivityCtrl = require('../controllers/activity.ctrl');
 const SessionCtrl = require('../controllers/session.ctrl');
 
-const auth = express.Router();
+const authorizedRoute = express.Router();
 
-auth
+authorizedRoute
   .post('/logout', SessionCtrl.logout)
   .post('/journeybuilder/save/', ActivityCtrl.save)
   .post('/journeybuilder/validate/', ActivityCtrl.validate)
@@ -12,4 +12,4 @@ auth
   .post('/journeybuilder/execute/', ActivityCtrl.execute)
   .post('/journeybuilder/stop/', ActivityCtrl.stop);
 
-module.exports = auth;
+module.exports = authorizedRoute;

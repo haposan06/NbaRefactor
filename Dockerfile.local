@@ -21,5 +21,4 @@ RUN chown -R appuser:appgroup . && \
     chmod -R 555 .
 
 USER appuser
-RUN ["chmod", "+x", "/home/appuser/start_nba.sh"]
-ENTRYPOINT ["/home/appuser/start_nba.sh"]
+ENTRYPOINT ["npm", "start"]

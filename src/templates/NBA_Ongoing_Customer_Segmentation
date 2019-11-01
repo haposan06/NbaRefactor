@@ -1,1 +1,23 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><soapenv:Header><fueloauth>[token]</fueloauth></soapenv:Header><soapenv:Body><RetrieveRequestMsg xmlns="http://exacttarget.com/wsdl/partnerAPI"><RetrieveRequest><ObjectType>DataExtensionObject[NBA_PolicyHolder_Master]</ObjectType><Properties>NBA_Ongoing_Interaction__c</Properties><Properties>Customer_Segmentation__c</Properties><Filter xsi:type="SimpleFilterPart"><Property>Id</Property><SimpleOperator>equals</SimpleOperator><Value>[accountId]</Value></Filter></RetrieveRequest></RetrieveRequestMsg></soapenv:Body></soapenv:Envelope>
+<soapenv:Envelope
+	xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<soapenv:Header>
+		<fueloauth>[token]</fueloauth>
+	</soapenv:Header>
+	<soapenv:Body>
+		<RetrieveRequestMsg
+			xmlns="http://exacttarget.com/wsdl/partnerAPI">
+			<RetrieveRequest>
+				<ObjectType>DataExtensionObject[NBA_PolicyHolder_Master]</ObjectType>
+				<Properties>NBA_Ongoing_Interaction__c</Properties>
+				<Properties>Customer_Segmentation__c</Properties>
+				<Filter xsi:type="SimpleFilterPart">
+					<Property>Id</Property>
+					<SimpleOperator>equals</SimpleOperator>
+					<Value>[accountId]</Value>
+				</Filter>
+			</RetrieveRequest>
+		</RetrieveRequestMsg>
+	</soapenv:Body>
+</soapenv:Envelope>

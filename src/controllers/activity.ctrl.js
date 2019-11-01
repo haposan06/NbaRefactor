@@ -34,13 +34,13 @@ class ActivityController {
 
   static async execute(req, res, next) {
     try {
-      log.logger.info(`ActivityController method execute ${JSON.stringify(req.decoded)}`);
       if (req.decoded && req.decoded.inArguments && req.decoded.inArguments.length > 0) {
         const executePayload = await ActivityStore.execute(req);
         res.status(200).send(executePayload);
       }
-      log.logger.error(`Incorrect decoded inArguments : ${req.decoded}`);
-      next(new Error(`Incorrect decoded inArguments : ${req.decoded}`));
+      const executeError = `Incorrect decoded inArguments : ${req.decoded}`;
+      log.logger.error(executeError);
+      next(new Error(executeError));
     }
     catch (exception) {
       next(new Error(`Internal Server Error: ${exception}`));

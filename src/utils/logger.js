@@ -24,15 +24,17 @@ function formatParams(info) {
     : ''}`;
 }
 
+const timestamp = !process.env.TIMEZONE ? 'Asia/Singapore' : process.env.TIMEZONE;
+
 const developmentFormat = format.combine(
-  appendTimestamp({ tz: 'Asia/Taipei' }),
+  appendTimestamp({ tz: timestamp }),
   format.align(),
   format.json(),
   format.printf(formatParams)
 );
 
 const productionFormat = format.combine(
-  appendTimestamp({ tz: 'Asia/Taipei' }),
+  appendTimestamp({ tz: timestamp }),
   format.align(),
   format.json(),
   format.printf(formatParams)

@@ -3,8 +3,8 @@ const path = require('path');
 const express = require('express');
 const JwtValidation = require('../routes/middlewares/jwt.validation');
 const AccessTokenValidation = require('../routes/middlewares/token.validation');
-const unauthRoute = require('./routes.unauth');
-const authRoute = require('./routes.auth');
+const unauthorizedRoute = require('./routes.unauth');
+const authorizedRoute = require('./routes.auth');
 
 module.exports = (app) => {
   app.use('/nba', express.static(path.join(process.cwd(), 'nba')));
@@ -12,6 +12,6 @@ module.exports = (app) => {
     const { logName } = req.params;
     res.sendFile(path.resolve(__dirname, `../../logs/${logName}`));
   });
-  app.use('/nba', unauthRoute);
-  app.use('/nba', [JwtValidation.validate, AccessTokenValidation.validate], authRoute);
+  app.use('/nba', unauthorizedRoute);
+  app.use('/nba', [JwtValidation.validate, AccessTokenValidation.validate], authorizedRoute);
 };

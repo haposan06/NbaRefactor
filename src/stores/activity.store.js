@@ -29,16 +29,16 @@ const getDataXMLJD = async (decoded, token) => {
     body: xml
   };
   const soapRespBody = await SoapUtil.post(soapRequest);
-  const Property = soapRespBody.RetrieveResponseMsg.Results;
+  const property = soapRespBody.RetrieveResponseMsg.Results;
   const accountDeMapping = new Map();
-  if (Property === undefined) {
+  if (property === undefined) {
     log.logger.info('Soap Request Property Undefined');
   }
   else {
     // var isOnGoing = soapBody.RetrieveResponseMsg.Results.Properties.Property.Value;
-    const Properties = soapRespBody.RetrieveResponseMsg.Results.Properties.Property;
-    for (let i = 0; i < Properties.length; i += 1) {
-      accountDeMapping.set(Properties[i].Name, Properties[i].Value);
+    const properties = soapRespBody.RetrieveResponseMsg.Results.Properties.Property;
+    for (let i = 0; i < properties.length; i += 1) {
+      accountDeMapping.set(properties[i].Name, properties[i].Value);
     }
   }
   return accountDeMapping;

@@ -14,13 +14,10 @@ class SoapUtil {
       }
     }).then((response) => {
       log.hostLogger.info(`Soap Response: url->${url}, soapAction->${soapAction}, body->${response.data}`);
-      // const { body, statusCode } = response.data;
-      // optional (it'll return an object in case it's not valid)
       if (parser.validate(response.data) === true) {
-        // writeToFile(response.data, "204");
         const options = {
           attributeNamePrefix: '@_',
-          attrNodeName: 'attr', // default is 'false'
+          attrNodeName: 'attr',
           textNodeName: '#text',
           ignoreAttributes: true,
           ignoreNameSpace: false,
@@ -28,19 +25,18 @@ class SoapUtil {
           parseNodeValue: true,
           parseAttributeValue: false,
           trimValues: true,
-          cdataTagName: '__cdata', // default is 'false'
+          cdataTagName: '__cdata',
           cdataPositionChar: '\\c',
-          localeRange: '', // To support non english character in tag/attribute values.
+          localeRange: '',
           parseTrueNumberOnly: false,
-          attrValueProcessor: (a) => he.decode(a, { isAttributeValue: true }), // default is a=>a
-          tagValueProcessor: (a) => he.decode(a) // default is a=>a
+          attrValueProcessor: (a) => he.decode(a, { isAttributeValue: true }),
+          tagValueProcessor: (a) => he.decode(a)
         };
         const jsonObj = parser.parse(response.data, options);
 
         const soapEnvelope = jsonObj['soap:Envelope'];
         const soapBody = soapEnvelope['soap:Body'];
         return soapBody;
-        // requestGetProductInformationJD(accountDeMapping, decodedArgs, token);
       }
       log.logger.error('PARSER NOT VALIDATE');
     }).catch((err) => {

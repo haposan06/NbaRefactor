@@ -3,7 +3,6 @@ const jwt = require('../../utils/jwt');
 
 class JwtValidation {
   static async validate(req, res, next) {
-    log.logger.info(`JwtValidation.validate middleware . Request ${req}`);
     if (!req.rawBody) {
       log.logger.error('Error in JwtValidation middleware : Missing JWT Token');
       const err = new Error('Malformed HTTP Request');

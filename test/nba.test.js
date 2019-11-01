@@ -13,16 +13,7 @@ const JWT_KEY = 'your-256-bit-secret';
 const JWT_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 
 describe('Session', () => {
-  describe('POST /', () => {
-    // Test login
-    it('Login', () => {
-      chai.request(app)
-        .post('/nba/login')
-        .end((err, res) => {
-          res.should.have.status(200);
-        });
-    });
-
+  describe('Nba Testing /', () => {
     // Test JWT
     it('JWT Utils', async () => {
       const decoded = await jwt(JWT_TOKEN, JWT_KEY);

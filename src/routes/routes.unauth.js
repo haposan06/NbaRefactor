@@ -1,10 +1,9 @@
 const express = require('express');
 const SessionCtrl = require('../controllers/session.ctrl');
 
-const unauth = express.Router();
+const unauthorizedRoute = express.Router();
 
-unauth
-  .get('/logs/jsLogs.txt', SessionCtrl.getLogs)
-  .post('/login', SessionCtrl.login);
+unauthorizedRoute
+  .get('/logs/jsLogs.txt', SessionCtrl.getLogs);
 
-module.exports = unauth;
+module.exports = unauthorizedRoute;

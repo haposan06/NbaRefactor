@@ -3,7 +3,6 @@ const log = require('./logger');
 
 module.exports = async (token, secret) => {
   log.logger.info(`Token is : ${token}`);
-  log.logger.debug(`Secret is : ${secret}`);
   if (!token) {
     throw new Error('invalid jwtdata');
   }
