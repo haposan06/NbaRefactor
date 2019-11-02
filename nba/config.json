@@ -10,10 +10,7 @@
     "type": "Rest",
     "lang": {
         "en-US": {
-            "name": "PACS_NBA",
-            "description": "Get Next Best Action"
         }
-
     },
 
     "arguments": {
