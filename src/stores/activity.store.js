@@ -93,6 +93,7 @@ const requestGetProductInformationJD = async (accountDeMapping, decodedArgs, tok
   }
 };
 
+// to be refined
 const updateDataExtensionDE = async (body, token, decodedArgs) => {
   let newProduct1 = '';
   let newProduct2 = '';
@@ -248,7 +249,7 @@ const updateDataExtensionDE = async (body, token, decodedArgs) => {
     url: `${process.env.REST_BASE_URI}hub/v1/dataevents/key:${process.env.DATA_EXTENSION_KEY}/row/PK:${pk}`
   };
   log.logger.info(`KO Result Request=>${JSON.stringify(optionRequestInsertDE)}`);
-  log.logger.info(`NBA Journey KO Result DE=>${process.env.DATA_EXTENSION_KEY}`);
+  log.logger.info(`KO Result Req Body=>${JSON.stringify(bodyStringInsertRowDE)}`);
   try {
     const { insertDEResponse, insertDEBody } = await RestUtil.post(optionRequestInsertDE);
     return insertDEBody;
