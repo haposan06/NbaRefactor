@@ -251,7 +251,7 @@ const updateDataExtensionDE = async (body, token, decodedArgs) => {
   const upsertDERequest = {
     body: bodyStringInsertRowDE
     headers: upsertDEReqHeader,
-    url: `${process.env.REST_BASE_URI}hub/v1/dataevents/key:${process.env.DATA_EXTENSION_KEY}/row/PK:${pk}`
+    url: `${process.env.REST_BASE_URI}hub/v1/dataevents/key:${process.env.DATA_EXTENSION_KEY}/rowset`
   };
   log.logger.info(`KO Result Request=>${JSON.stringify(upsertDERequest)}`);
   log.logger.info(`KO Result Req Body=>${JSON.stringify(bodyStringInsertRowDE)}`);
