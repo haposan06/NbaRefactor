@@ -2,13 +2,11 @@
 define(['postmonger'], function (Postmonger) {
     'use strict';
 
-
-    //console.log('CUSTOM ACTIVITY ->');
     let connection = new Postmonger.Session();
 
     let authTokens = {};
     let payload = {};
-   
+    let eventDefinitionKey = '';
     // Configuration variables
     let campaignId = '';
     let campaignName = '';
@@ -38,12 +36,8 @@ define(['postmonger'], function (Postmonger) {
     let splitContactId = '';
     let splitMicroSegment = '';
 
-    let eventDefinitionKey = '';
-    //let dataExtensionId = '';
-    //let dataExtensionName = '';
-
     $(window).ready(onRender);
-	//events that happen in journey builder
+
     connection.on('initActivity', initialize); //In response to the first ready event
     connection.on('requestedTokens', onGetTokens); // Get Tokens
     connection.on('requestedEndpoints', onGetEndpoints); //Get Endpoints
@@ -52,7 +46,6 @@ define(['postmonger'], function (Postmonger) {
     connection.on('clickedNext', save); //Save function within MC
 
     function onRender() {
-        // JB will respond the first time 'ready' is called with 'initActivity'
         connection.trigger('ready');
         connection.trigger('requestTokens');
         connection.trigger('requestEndpoints');
@@ -100,7 +93,7 @@ define(['postmonger'], function (Postmonger) {
 
     function onGetEndpoints(endpoints) {
         if(endpoints){
-            console.log(endpoints);
+            console.log(JSON.stringify(endpoints));
         }
     }
 
@@ -112,10 +105,6 @@ define(['postmonger'], function (Postmonger) {
      * The config.json will be updated here if there are any updates to be done via Front End UI
      */
     function save() {
-
-        //var sourceFile = require('../../app.js');
-
-        console.log('SAVING CONFIG - >');
 
         let journeyStep = getJourneyStepCode();
 
@@ -134,11 +123,12 @@ define(['postmonger'], function (Postmonger) {
                 "microSegment" : "{{Event." +eventDefinitionKey + '."' + splitMicroSegment[2] + '"}}',
             }
         ];
-            
-        payload['metaData'].isConfigured = true;
-        console.log(JSON.stringify(data));
 
-        //Called when the activity modal should be closed, with the data saved to the activity on the canvas.
+        payload['metaData'].isConfigured = true;
+        console.log(JSON.stringify(payload));
+
+        //Called when the activity modal should be closed, 
+        //with the data saved to the activity on the canvas.
         connection.trigger('updateActivity', payload);
 
     }
