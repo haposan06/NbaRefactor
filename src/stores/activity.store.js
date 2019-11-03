@@ -35,7 +35,7 @@ const getDataXMLJD = async (decoded, token) => {
     log.logger.info('Soap Request Property Undefined');
   }
   else {
-    // var isOnGoing = soapBody.RetrieveResponseMsg.Results.Properties.Property.Value;
+    // check property is existing in the response
     const properties = soapRespBody.RetrieveResponseMsg.Results.Properties.Property;
     for (let i = 0; i < properties.length; i += 1) {
       accountDeMapping.set(properties[i].Name, properties[i].Value);
@@ -50,8 +50,9 @@ const requestGetProductInformationJD = async (accountDeMapping, decodedArgs, tok
     platform: process.env.PLATFORM,
     audienceList: [{
       customerId: decodedArgs.clientId,
-      microSegment: accountDeMapping.get('Customer_Segmentation__c'),
-      isOngoing: accountDeMapping.get('NBA_Ongoing_Interaction__c')
+      microSegment: decodedArgs.microSegment,
+      isOngoing: accountDeMapping.get('NBA_Ongoing_Interaction__c'),
+      crmId: decodedArgs.crmId
     }
     ],
     campaign: {
@@ -59,10 +60,9 @@ const requestGetProductInformationJD = async (accountDeMapping, decodedArgs, tok
       campaignName: decodedArgs.campaignName,
       campaignType: decodedArgs.campaignType,
       campaignProductType: [
-        // Does product Type get split by ';'
         decodedArgs.campaignProductType
       ],
-      overrideContactFramwork: decodedArgs.override
+      overrideContactFramwork: decodedArgs.overrideFramework
     }
   };
 
@@ -195,57 +195,58 @@ const updateDataExtensionDE = async (body, token, decodedArgs) => {
   }
 
   const bodyStringInsertRowDE = JSON.stringify([
-    {
-      keys: {
-        PK: `${decodedArgs.decisionId}-${decodedArgs.journeyStepCode}`,
-        CampaignAudienceId: decodedArgs.decisionId
-      },
-      values: {
-        customerId: decodedArgs.clientId,
-        PersonContactId: decodedArgs.contactId,
-        CampaignId: decodedArgs.campaignId,
-        journeyStepCode: decodedArgs.journeyStepCode,
-        Product1Name: newProduct1,
-        Product1Code: newProduct1Code,
-        Product1Type: newProduct1Type,
-        Product2Name: newProduct2,
-        Product2Code: newProduct2Code,
-        Product2Type: newProduct2Type,
-        koStatus: koStatusValue,
-        Status: statusValue,
-        Message: messageValue,
-        channelMismatch: channelMismatchValue,
-        corporateClients: corporateClientsValue,
-        underTrust: underTrustValue,
-        servicedBy: servicedByValue,
-        customerStatus: customerStatusValue,
-        agentStatus: agentStatusValue,
-        controlGroup: controlGroupValue,
-        underBankruptcy: underBankruptcyValue,
-        foreignAddress: foreignAddressValue,
-        foreignMobileNumber: foreignMobileNumberValue,
-        phladeceased: phladeceasedValue,
-        claimStatus: claimStatusValue,
-        claimType: claimTypeValue,
-        subClaimType: subClaimTypeValue,
-        failedTotalSumAssuredTest: failedTotalSumAssuredTestValue,
-        exclusionCodeImposed: exclusionCodeImposedValue,
-        extraMorality: extraMoralityValue,
-        isSubstandard: isSubstandardValue,
-        amlwatchList: amlwatchListValue,
-        underwritingKOs: underwritingKOsValue,
-        existingProductsKOs: existingProductsKOsValue,
-        salesPersonKOs: salesPersonKOsValue
-      }
+  {
+    values: {
+
+      customerId: decodedArgs.clientId,
+      PersonContactId: decodedArgs.contactId,
+      CampaignId: decodedArgs.campaignId,
+      journeyStepCode: decodedArgs.journeyStepCode,
+      microSegment: decodedArgs.microSegment,
+      CampaignAudienceId : decodedArgs.decisionId,
+      Product1Name: newProduct1,
+      Product1Code: newProduct1Code,
+      Product1Type: newProduct1Type,
+      Product2Name: newProduct2,
+      Product2Code: newProduct2Code,
+      Product2Type: newProduct2Type,
+      koStatus: koStatusValue,
+      Status: statusValue,
+      Message: messageValue,
+      channelMismatch: channelMismatchValue,
+      corporateClients: corporateClientsValue,
+      underTrust: underTrustValue,
+      servicedBy: servicedByValue,
+      customerStatus: customerStatusValue,
+      agentStatus: agentStatusValue,
+      controlGroup: controlGroupValue,
+      underBankruptcy: underBankruptcyValue,
+      foreignAddress: foreignAddressValue,
+      foreignMobileNumber: foreignMobileNumberValue,
+      phladeceased: phladeceasedValue,
+      claimStatus: claimStatusValue,
+      claimType: claimTypeValue,
+      subClaimType: subClaimTypeValue,
+      failedTotalSumAssuredTest: failedTotalSumAssuredTestValue,
+      exclusionCodeImposed: exclusionCodeImposedValue,
+      extraMorality: extraMoralityValue,
+      isSubstandard: isSubstandardValue,
+      amlwatchList: amlwatchListValue,
+      underwritingKOs: underwritingKOsValue,
+      existingProductsKOs: existingProductsKOsValue,
+      salesPersonKOs: salesPersonKOsValue
     }
-  ]);
+  }]);
+
+  let pk = decodedArgs.decisionId + '-' + decodedArgs.journeyStepCode;
   const headerInsertDE = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`
   };
   const optionRequestInsertDE = {
+    method : 'PUT',
     headers: headerInsertDE,
-    url: `${process.env.REST_BASE_URI}hub/v1/dataevents/key:${process.env.DATA_EXTENSION_KEY}/rowset`
+    url: `${process.env.REST_BASE_URI}hub/v1/dataevents/key:${process.env.DATA_EXTENSION_KEY}/row/PK:${pk}`
   };
   log.logger.info(`KO Result Request=>${JSON.stringify(optionRequestInsertDE)}`);
   log.logger.info(`NBA Journey KO Result DE=>${process.env.DATA_EXTENSION_KEY}`);

@@ -24,9 +24,10 @@
                 "campaignType": "{{Event.eventDefinitionKey.\"NBA_Campaign_Audience__c:NBA_Campaign__r:Campaign_Type__c\"}}",
                 "clientId": "{{Event.eventDefinitionKey.\"NBA_Campaign_Audience__c:NBA_Client_Id__c\"}}",
                 "contactId": "{{Event.eventDefinitionKey.\"NBA_Campaign_Audience__c:NBA_Customer__r:PersonContactId\"}}",
+                "crmId": "{{Event.eventDefinitionKey.\"NBA_Campaign_Audience__c:NBA_Customer__c\"}}",
                 "decisionId": "{{Event.eventDefinitionKey.\"NBA_Campaign_Audience__c:Id\"}}",
                 "microSegment": "{{Event.eventDefinitionKey.\"NBA_Campaign_Audience__c:NBA_Customer__r:Customer_Segmentation__c\"}}",
-                "override": "{{Event.eventDefinitionKey.\"NBA_Campaign_Audience__c:NBA_Campaign__r:NBA_Override_Contact_Framework__c\"}}",
+                "overrideFramework": "{{Event.eventDefinitionKey.\"NBA_Campaign_Audience__c:NBA_Campaign__r:NBA_Override_Contact_Framework__c\"}}",
                 "journeyStepCode": "",
                 "token": ""
             }],
