@@ -138,7 +138,7 @@ define(['postmonger'], function (Postmonger) {
                 inAug['journeyStepCode'] = getJourneyStepCode();
 
                 if(authTokens && authTokens['access_token']){
-                    inAug['token'] = authTokens['access_token'];
+                    inAug['token'] = authTokens['token'];
                 }
                 
             });
@@ -146,7 +146,7 @@ define(['postmonger'], function (Postmonger) {
 
         payload['metaData'].isConfigured = true;
         console.log(JSON.stringify(payload));
-
+        console.dir(payload);
         //Called when the activity modal should be closed, 
         //with the data saved to the activity on the canvas.
         connection.trigger('updateActivity', payload);
