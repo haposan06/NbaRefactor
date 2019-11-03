@@ -80,8 +80,27 @@ define(['postmonger'], function (Postmonger) {
         
         if (data) {
             payload = data;
-            parseEventSchema(data);
         }
+
+        let hasInArguments = Boolean(
+            payload &&
+            payload['arguments'] &&
+            payload['arguments'].execute &&
+            payload['arguments'].execute.inArguments &&
+            payload['arguments'].execute.inArguments.length > 0
+        );
+
+        if(hasInArguments){
+            let stepCode = data.arguments.execute.inArguments[0].journeyStepCode;
+            $("#journeyStep").val(stepCode);
+        }
+
+
+        connection.trigger('updateButton', {
+            button: 'next',
+            text: 'done',
+            visible: true
+        });
     }
 
     function onGetTokens(tokens) {
@@ -108,21 +127,22 @@ define(['postmonger'], function (Postmonger) {
 
         let journeyStep = getJourneyStepCode();
 
-        payload['arguments'].execute.inArguments = [
-            {
-                "journeyStepCode" : journeyStep,
-                "campaignId" : "{{Event." + eventDefinitionKey + '."' + splitCampaignId[2] + '"}}',
-                "campaignName" : "{{Event." + eventDefinitionKey + '."' + splitcampaignName[2] + '"}}',
-                "clientId" : "{{Event." +eventDefinitionKey + '."' + splitclientId[2] + '"}}',
-                "decisionId" :  "{{Event." +eventDefinitionKey + '."' + splitaudienceId[2] + '"}}',
-                "campaignType" :  "{{Event." +eventDefinitionKey + '."' + splitCampaignType[2] + '"}}',
-                "campaignProductType" : "{{Event." +eventDefinitionKey + '."' + splitProductTypeValue[2] + '"}}',
-                "contactId" : "{{Event." +eventDefinitionKey + '."' + splitContactId[2] + '"}}',
-                "override" : "{{Event." +eventDefinitionKey + '."' + overrideSplit[2] + '"}}',
-                "accountId" : "{{Event." +eventDefinitionKey + '."' + splitaccountId[2] + '"}}',
-                "microSegment" : "{{Event." +eventDefinitionKey + '."' + splitMicroSegment[2] + '"}}',
-            }
-        ];
+        let inArgs = payload['arguments'].execute.inArguments;
+
+        if(eventDefinitionKey) {
+            $.each(inArgs, function (index, inAug) {
+                $.each(inAug, function (key, val) {
+                    inAug[key] = val.replace("eventDefinitionKey", eventDefinitionKey);
+                });
+
+                inAug['journeyStepCode'] = getJourneyStepCode();
+
+                if(authTokens && authTokens['access_token']){
+                    inAug['token'] = authTokens['access_token'];
+                }
+                
+            });
+        }
 
         payload['metaData'].isConfigured = true;
         console.log(JSON.stringify(payload));
