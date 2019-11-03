@@ -147,28 +147,28 @@ const updateDataExtensionDE = async (body, token, decodedArgs) => {
     messageValue = jsonValue.message;
 
     if(jsonValue.hasOwnProperty("koReason")){
-        channelMismatchValue = jsonValue.koReason.channelMismatch;
-        corporateClientsValue = jsonValue.koReason.corporateClients;
-        underTrustValue = jsonValue.koReason.underTrust;
-        servicedByValue = jsonValue.koReason.servicedBy;
-        customerStatusValue = jsonValue.koReason.customerStatus;
-        agentStatusValue = jsonValue.koReason.agentStatus;
-        controlGroupValue = jsonValue.koReason.controlGroup;
-        underBankruptcyValue = jsonValue.koReason.underBankruptcy;
-        foreignAddressValue = jsonValue.koReason.foreignAddress;
-        foreignMobileNumberValue = jsonValue.koReason.foreignMobileNumber;
-        phladeceasedValue = jsonValue.koReason.phladeceased;
-        claimStatusValue = jsonValue.koReason.claimStatus;
-        claimTypeValue = jsonValue.koReason.claimType;
-        subClaimTypeValue = jsonValue.koReason.subClaimType;
-        failedTotalSumAssuredTestValue = jsonValue.koReason.failedTotalSumAssuredTest;
-        exclusionCodeImposedValue = jsonValue.koReason.exclusionCodeImposed;
-        extraMoralityValue = jsonValue.koReason.extraMorality;
-        isSubstandardValue = jsonValue.koReason.isSubstandard;
-        amlwatchListValue = jsonValue.koReason.amlwatchList;
-        underwritingKOsValue = jsonValue.koReason.underwritingKOs;
-        existingProductsKOsValue = jsonValue.koReason.existingProductsKOs;
-        salesPersonKOsValue = jsonValue.koReason.salesPersonKOs;
+      channelMismatchValue = jsonValue.koReason.channelMismatch;
+      corporateClientsValue = jsonValue.koReason.corporateClients;
+      underTrustValue = jsonValue.koReason.underTrust;
+      servicedByValue = jsonValue.koReason.servicedBy;
+      customerStatusValue = jsonValue.koReason.customerStatus;
+      agentStatusValue = jsonValue.koReason.agentStatus;
+      controlGroupValue = jsonValue.koReason.controlGroup;
+      underBankruptcyValue = jsonValue.koReason.underBankruptcy;
+      foreignAddressValue = jsonValue.koReason.foreignAddress;
+      foreignMobileNumberValue = jsonValue.koReason.foreignMobileNumber;
+      phladeceasedValue = jsonValue.koReason.phladeceased;
+      claimStatusValue = jsonValue.koReason.claimStatus;
+      claimTypeValue = jsonValue.koReason.claimType;
+      subClaimTypeValue = jsonValue.koReason.subClaimType;
+      failedTotalSumAssuredTestValue = jsonValue.koReason.failedTotalSumAssuredTest;
+      exclusionCodeImposedValue = jsonValue.koReason.exclusionCodeImposed;
+      extraMoralityValue = jsonValue.koReason.extraMorality;
+      isSubstandardValue = jsonValue.koReason.isSubstandard;
+      amlwatchListValue = jsonValue.koReason.amlwatchList;
+      underwritingKOsValue = jsonValue.koReason.underwritingKOs;
+      existingProductsKOsValue = jsonValue.koReason.existingProductsKOs;
+      salesPersonKOsValue = jsonValue.koReason.salesPersonKOs;
     }
 
     if(jsonValue.hasOwnProperty("offerProducts") !== true || jsonValue.offerProducts.length < 2 ){
@@ -194,8 +194,14 @@ const updateDataExtensionDE = async (body, token, decodedArgs) => {
     }
   }
 
-  const bodyStringInsertRowDE = JSON.stringify([
+  let pkValue = decodedArgs.decisionId + '-' + decodedArgs.journeyStepCode;
+
+  const bodyStringInsertRowDE = 
   {
+    keys: {
+      pK: pkValue
+    },
+
     values: {
 
       customerId: decodedArgs.clientId,
@@ -236,22 +242,21 @@ const updateDataExtensionDE = async (body, token, decodedArgs) => {
       existingProductsKOs: existingProductsKOsValue,
       salesPersonKOs: salesPersonKOsValue
     }
-  }]);
+  };
 
-  let pk = decodedArgs.decisionId + '-' + decodedArgs.journeyStepCode;
-  const headerInsertDE = {
+  const upsertDEReqHeader = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`
   };
-  const optionRequestInsertDE = {
-    method : 'PUT',
-    headers: headerInsertDE,
+  const upsertDERequest = {
+    body: bodyStringInsertRowDE
+    headers: upsertDEReqHeader,
     url: `${process.env.REST_BASE_URI}hub/v1/dataevents/key:${process.env.DATA_EXTENSION_KEY}/row/PK:${pk}`
   };
-  log.logger.info(`KO Result Request=>${JSON.stringify(optionRequestInsertDE)}`);
+  log.logger.info(`KO Result Request=>${JSON.stringify(upsertDERequest)}`);
   log.logger.info(`KO Result Req Body=>${JSON.stringify(bodyStringInsertRowDE)}`);
   try {
-    const { insertDEResponse, insertDEBody } = await RestUtil.post(optionRequestInsertDE);
+    const { insertDEResponse, insertDEBody } = await RestUtil.post(upsertDERequest);
     return insertDEBody;
   }
   catch (exception) {
