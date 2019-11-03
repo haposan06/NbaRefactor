@@ -1,5 +1,4 @@
 
-const jsonCircular = require('circular-json');
 define(['postmonger'], function (Postmonger) {
     'use strict';
 
@@ -67,7 +66,7 @@ define(['postmonger'], function (Postmonger) {
     */
     function triggerEventDefinition(eventDefinitionModel){
         if(eventDefinitionModel){
-            console.log('eventDefinitionModel=>' + jsonCircular.stringify(eventDefinitionModel));
+            console.log('eventDefinitionModel=>%o' + eventDefinitionModel);
             eventDefinitionKey = eventDefinitionModel.eventDefinitionKey;
             dataExtensionId = eventDefinitionModel.dataExtensionId;
            // dataExtensionName = eventDefinitionModel.schema.name;
@@ -84,7 +83,7 @@ define(['postmonger'], function (Postmonger) {
         Journey Builder responds by passing an activity definition JSON payload.
     */
     function initialize(data) {
-        console.log("payload=>" + jsonCircular.stringify(data));
+        console.log("payload=>%o" + data);
         
         if (data) {
             payload = data;
@@ -135,7 +134,7 @@ define(['postmonger'], function (Postmonger) {
             }
         ];        
         payload['metaData'].isConfigured = true;
-        console.log('payload ====>' + jsonCircular.stringify(payload));
+        console.log('payload ====>%o' + payload);
         connection.trigger('updateActivity', payload);
 
     }
