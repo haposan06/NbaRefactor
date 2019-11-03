@@ -137,7 +137,7 @@ define(['postmonger'], function (Postmonger) {
 
                 inAug['journeyStepCode'] = getJourneyStepCode();
 
-                if(authTokens && authTokens['access_token']){
+                if(authTokens && authTokens['token']){
                     inAug['token'] = authTokens['token'];
                 }
                 
