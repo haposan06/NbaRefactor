@@ -39,16 +39,16 @@ define(['postmonger'], function (Postmonger) {
     let splitMicroSegment = '';
 
     let eventDefinitionKey = '';
-    let dataExtensionId = '';
+    //let dataExtensionId = '';
     //let dataExtensionName = '';
 
     $(window).ready(onRender);
 	//events that happen in journey builder
-    connection.on('initActivity', initialize);
+    connection.on('initActivity', initialize); //In response to the first ready event
     connection.on('requestedTokens', onGetTokens); // Get Tokens
     connection.on('requestedEndpoints', onGetEndpoints); //Get Endpoints
-    connection.on('requestedTriggerEventDefinition', triggerEventDefinition); //Get Entry Event Information
-    connection.on('requestInteractionDefaults', interactionDefaults);
+    connection.on('requestedTriggerEventDefinition', onEventDefinition); //Get EventDefinition
+    //connection.on('requestInteractionDefaults', interactionDefaults);
     connection.on('clickedNext', save); //Save function within MC
 
     function onRender() {
@@ -57,33 +57,33 @@ define(['postmonger'], function (Postmonger) {
         connection.trigger('requestTokens');
         connection.trigger('requestEndpoints');
         connection.trigger('requestTriggerEventDefinition');
-        connection.trigger('requestInteractionDefaults');
+        //connection.trigger('requestInteractionDefaults');
     }
 
     /**
-     * This function is to pull out the event definition without journey builder.
-     * With the eventDefinitionKey, you are able to pull out values that passes through the journey
+     * This function is to pull out the event definition Key.
+     * With the eventDefinitionKey, it can set the field path and save the config for the activity.
     */
-    function triggerEventDefinition(eventDefinitionModel){
+    function onEventDefinition(eventDefinitionModel){
         if(eventDefinitionModel){
             console.log(JSON.stringify(eventDefinitionModel));
             eventDefinitionKey = eventDefinitionModel.eventDefinitionKey;
-            dataExtensionId = eventDefinitionModel.dataExtensionId;
-           // dataExtensionName = eventDefinitionModel.schema.name;
-           // console.log('dataExtensionName - > ' + dataExtensionName);
         }
     }
 
+    /*    
     function interactionDefaults(settings){
         if(settings){
             //console.log('settings -> ' + settings);
         }
     }
+    */
+
     /*
         Journey Builder responds by passing an activity definition JSON payload.
     */
     function initialize(data) {
-        console.dir(data);
+        console.log(JSON.stringify(data));
         
         if (data) {
             payload = data;
@@ -93,13 +93,14 @@ define(['postmonger'], function (Postmonger) {
 
     function onGetTokens(tokens) {
         if(tokens){
+            console.log(JSON.stringify(tokens));
             authTokens = tokens;
         }
     }
 
     function onGetEndpoints(endpoints) {
         if(endpoints){
-            //console.log('endpoints - > ' + endpoints);
+            console.log(endpoints);
         }
     }
 
@@ -132,9 +133,12 @@ define(['postmonger'], function (Postmonger) {
                 "accountId" : "{{Event." +eventDefinitionKey + '."' + splitaccountId[2] + '"}}',
                 "microSegment" : "{{Event." +eventDefinitionKey + '."' + splitMicroSegment[2] + '"}}',
             }
-        ];        
+        ];
+            
         payload['metaData'].isConfigured = true;
-        console.log(payload);
+        console.log(JSON.stringify(data));
+
+        //Called when the activity modal should be closed, with the data saved to the activity on the canvas.
         connection.trigger('updateActivity', payload);
 
     }
