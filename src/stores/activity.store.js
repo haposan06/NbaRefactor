@@ -81,7 +81,7 @@ const requestGetProductInformationJD = async (accountDeMapping, decodedArgs, tok
     const { response, body } = await RestUtil.post(mcRequest);
     if (body) {
       const jsonValue = JSON.parse(body);
-      if (jsonValue.status === 'PS_FAILED') {
+      if (jsonValue.status !== 'success') {
         log.logger.info(`connectionErrorMessage - > ${body}`);
         connectionErrorMessage[0] = `${jsonValue.status}-${jsonValue.message}`;
       }
@@ -144,38 +144,37 @@ const updateDataExtensionDE = async (body, token, decodedArgs) => {
     koStatusValue = jsonValue.koStatus;
     statusValue = jsonValue.status;
     messageValue = jsonValue.message;
-    channelMismatchValue = jsonValue.koReason.channelMismatch;
-    corporateClientsValue = jsonValue.koReason.corporateClients;
-    underTrustValue = jsonValue.koReason.underTrust;
-    servicedByValue = jsonValue.koReason.servicedBy;
-    customerStatusValue = jsonValue.koReason.customerStatus;
-    agentStatusValue = jsonValue.koReason.agentStatus;
-    controlGroupValue = jsonValue.koReason.controlGroup;
-    underBankruptcyValue = jsonValue.koReason.underBankruptcy;
-    foreignAddressValue = jsonValue.koReason.foreignAddress;
-    foreignMobileNumberValue = jsonValue.koReason.foreignMobileNumber;
-    phladeceasedValue = jsonValue.koReason.phladeceased;
-    claimStatusValue = jsonValue.koReason.claimStatus;
-    claimTypeValue = jsonValue.koReason.claimType;
-    subClaimTypeValue = jsonValue.koReason.subClaimType;
-    failedTotalSumAssuredTestValue = jsonValue.koReason.failedTotalSumAssuredTest;
-    exclusionCodeImposedValue = jsonValue.koReason.exclusionCodeImposed;
-    extraMoralityValue = jsonValue.koReason.extraMorality;
-    isSubstandardValue = jsonValue.koReason.isSubstandard;
-    amlwatchListValue = jsonValue.koReason.amlwatchList;
-    underwritingKOsValue = jsonValue.koReason.underwritingKOs;
-    existingProductsKOsValue = jsonValue.koReason.existingProductsKOs;
-    salesPersonKOsValue = jsonValue.koReason.salesPersonKOs;
 
-    if (jsonValue.offerProducts.length === 0 && jsonValue.koStatus === process.env.KO_STATUS_NO) {
-      koStatusValue = process.env.KO_STATUS_YES;
-    }
-    else if (jsonValue.koStatus === process.env.KO_STATUS_YES
-      && jsonValue.offerProducts.length !== 0) {
-      koStatusValue = process.env.KO_STATUS_NO;
+    if(jsonValue.hasOwnProperty("koReason")){
+        channelMismatchValue = jsonValue.koReason.channelMismatch;
+        corporateClientsValue = jsonValue.koReason.corporateClients;
+        underTrustValue = jsonValue.koReason.underTrust;
+        servicedByValue = jsonValue.koReason.servicedBy;
+        customerStatusValue = jsonValue.koReason.customerStatus;
+        agentStatusValue = jsonValue.koReason.agentStatus;
+        controlGroupValue = jsonValue.koReason.controlGroup;
+        underBankruptcyValue = jsonValue.koReason.underBankruptcy;
+        foreignAddressValue = jsonValue.koReason.foreignAddress;
+        foreignMobileNumberValue = jsonValue.koReason.foreignMobileNumber;
+        phladeceasedValue = jsonValue.koReason.phladeceased;
+        claimStatusValue = jsonValue.koReason.claimStatus;
+        claimTypeValue = jsonValue.koReason.claimType;
+        subClaimTypeValue = jsonValue.koReason.subClaimType;
+        failedTotalSumAssuredTestValue = jsonValue.koReason.failedTotalSumAssuredTest;
+        exclusionCodeImposedValue = jsonValue.koReason.exclusionCodeImposed;
+        extraMoralityValue = jsonValue.koReason.extraMorality;
+        isSubstandardValue = jsonValue.koReason.isSubstandard;
+        amlwatchListValue = jsonValue.koReason.amlwatchList;
+        underwritingKOsValue = jsonValue.koReason.underwritingKOs;
+        existingProductsKOsValue = jsonValue.koReason.existingProductsKOs;
+        salesPersonKOsValue = jsonValue.koReason.salesPersonKOs;
     }
 
-    if (koStatusValue === process.env.KO_STATUS_NO && jsonValue.offerProducts.length !== 0) {
+    if(jsonValue.hasOwnProperty("offerProducts") !== true || jsonValue.offerProducts.length < 2 ){
+        koStatusValue = process.env.KO_STATUS_YES;
+    } 
+
+    if (koStatusValue === process.env.KO_STATUS_NO && jsonValue.offerProducts.length >= 2) {
       log.logger.info(`offer Products${jsonValue.offerProducts}`);
       const offerProductsSorted = jsonValue.offerProducts.slice(0);
       offerProductsSorted.sort((a, b) => a.productRank - b.productRank);
