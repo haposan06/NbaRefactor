@@ -6,7 +6,6 @@ define(['postmonger'], function (Postmonger) {
     //console.log('CUSTOM ACTIVITY ->');
     let connection = new Postmonger.Session();
 
-    let API_PATH = '';
     let authTokens = {};
     let payload = {};
    
@@ -67,6 +66,7 @@ define(['postmonger'], function (Postmonger) {
     */
     function triggerEventDefinition(eventDefinitionModel){
         if(eventDefinitionModel){
+            console.log('eventDefinitionModel=>' + eventDefinitionModel);
             eventDefinitionKey = eventDefinitionModel.eventDefinitionKey;
             dataExtensionId = eventDefinitionModel.dataExtensionId;
            // dataExtensionName = eventDefinitionModel.schema.name;
@@ -79,15 +79,16 @@ define(['postmonger'], function (Postmonger) {
             //console.log('settings -> ' + settings);
         }
     }
-    
+    /*
+        Journey Builder responds by passing an activity definition JSON payload.
+    */
     function initialize(data) {
+        console.log("payload=>" + data);
         
         if (data) {
             payload = data;
+            parseEventSchema(data);
         }
-        //console.log('DATA - > ' + data);
-        initialLoad(data);
-        parseEventSchema(data);
     }
 
     function onGetTokens(tokens) {
@@ -102,6 +103,9 @@ define(['postmonger'], function (Postmonger) {
         }
     }
 
+    function getJourneyStepCode() {
+        return $('#journeyStep').val().trim();
+    };
     /**
      * Save function is fired off upon clicking of "Done" in Marketing Cloud
      * The config.json will be updated here if there are any updates to be done via Front End UI
@@ -111,8 +115,8 @@ define(['postmonger'], function (Postmonger) {
         //var sourceFile = require('../../app.js');
 
         console.log('SAVING CONFIG - >');
-        console.log('EVENT DEFINITION KEY - > ' + eventDefinitionKey);
-        let journeyStep = $('#journeyStep').val();
+
+        let journeyStep = getJourneyStepCode();
 
         payload['arguments'].execute.inArguments = [
             {
@@ -135,31 +139,10 @@ define(['postmonger'], function (Postmonger) {
 
     }
 
-    /**
-     * 
-     * @param {*} data
-     * 
-     * This data param is the config json payload that needs to be loaded back into the UI upon opening the custom application within journey builder 
-     * This function is invoked when the user clicks on the custom activity in Marketing Cloud. 
-     * If there are information present, it should be loaded back into the appropriate places. 
-     * e.g. input fields, select lists
-     */
-    function initialLoad (data) {
-        //console.log('INITIAL LOAD - >');
-    };
-
 
     /**
      * This function is to pull the relevant information to create the schema of the objects
-     * 
-     * This function pulls out the schema for additional customizations that can be used.
-     * This function leverages on the required field of "Last Name" to pull out the overall event schema
-     * 
-     * returned variables of: lastnameSchema , eventSchema.
-     * eventSchema = Case:Contact:
-     * lastnameSchema = Case:Contact:<last_name_schema>
-     * 
-     * View the developer console in chrome upon opening of application in MC Journey Builder for further clarity.
+     * View the developer console in browser upon opening of application in MC Journey Builder for further clarity.
      */
     function parseEventSchema(data) {
         // Pulling data from the schema
