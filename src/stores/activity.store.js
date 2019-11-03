@@ -6,7 +6,7 @@ const SoapUtil = require('../utils/soap');
 const log = require('../utils/logger');
 
 let customerSegmentationXML;
-fs.readFile(`${path.join(__dirname, '../templates')}/NBA_Ongoing_Customer_Segmentation`, 'utf8', async (err, data) => {
+fs.readFile(`${path.join(__dirname, '../templates')}/NBA_PolicyHolder_Template`, 'utf8', async (err, data) => {
   if (err) {
     log.logger.error(`Error when reading file: ${err}`);
   }

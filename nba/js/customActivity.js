@@ -11,6 +11,7 @@ define(['postmonger'], function (Postmonger) {
     $(window).ready(onRender);
 
     connection.on('initActivity', initialize); //In response to the first ready event
+    connection.on('requestTokens', onGetTokens); //Get Endpoints
     connection.on('requestedEndpoints', onGetEndpoints); //Get Endpoints
     connection.on('requestedTriggerEventDefinition', onEventDefinition); //Get EventDefinition
     connection.on('clickedNext', save); //Save function within MC
@@ -69,6 +70,7 @@ define(['postmonger'], function (Postmonger) {
     }
 
     function onGetEndpoints(endpoints) {
+
     }
 
     function getJourneyStepCode() {
@@ -90,8 +92,8 @@ define(['postmonger'], function (Postmonger) {
 
                 inAug['journeyStepCode'] = getJourneyStepCode();
 
-                if(authTokens && authTokens['token']){
-                    inAug['token'] = authTokens['token'];
+                if(authTokens && authTokens.token){
+                    inAug['token'] = authTokens.token;
                 }
                 
             });
