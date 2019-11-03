@@ -66,7 +66,7 @@ define(['postmonger'], function (Postmonger) {
     */
     function triggerEventDefinition(eventDefinitionModel){
         if(eventDefinitionModel){
-            console.log('eventDefinitionModel=>%o' + eventDefinitionModel);
+            console.log(JSON.stringify(eventDefinitionModel));
             eventDefinitionKey = eventDefinitionModel.eventDefinitionKey;
             dataExtensionId = eventDefinitionModel.dataExtensionId;
            // dataExtensionName = eventDefinitionModel.schema.name;
@@ -83,7 +83,7 @@ define(['postmonger'], function (Postmonger) {
         Journey Builder responds by passing an activity definition JSON payload.
     */
     function initialize(data) {
-        console.log("payload=>%o" + data);
+        console.dir(data);
         
         if (data) {
             payload = data;
@@ -134,7 +134,7 @@ define(['postmonger'], function (Postmonger) {
             }
         ];        
         payload['metaData'].isConfigured = true;
-        console.log('payload ====>%o' + payload);
+        console.log(payload);
         connection.trigger('updateActivity', payload);
 
     }
