@@ -59,7 +59,7 @@ const getDataXMLJD = async (decoded, token) => {
     return null;
   }
 
-  const hasProperty = objectHasProperty(soapRespBody,'Property');
+  const hasProperty = await objectHasProperty(soapRespBody,'Property');
   if(hasProperty){
     console.log('PROPERTY IS FOUND');
     const property = soapRespBody.RetrieveResponseMsg.Results.Properties.Property
