@@ -253,10 +253,14 @@ const updateDataExtensionDE = async (body, token, decodedArgs) => {
     headers: upsertDEReqHeader,
     url: `${process.env.REST_BASE_URI}hub/v1/dataevents/key:${process.env.DATA_EXTENSION_KEY}/rowset`
   };
+  console.log('KO Result Request=>' + JSON.stringify(upsertDERequest));
+  console.log('KO Result Req Body=>' + JSON.stringify(bodyStringInsertRowDE));
   log.logger.info(`KO Result Request=>${JSON.stringify(upsertDERequest)}`);
   log.logger.info(`KO Result Req Body=>${JSON.stringify(bodyStringInsertRowDE)}`);
   try {
     const { insertDEResponse, insertDEBody } = await RestUtil.post(upsertDERequest);
+    console.log('insertDEResponse - > ' + insertDEResponse);
+    console.log('insertDEBody - > ' + insertDEBody);
     return insertDEBody;
   }
   catch (exception) {
@@ -311,11 +315,15 @@ class ActivityStore {
 
   static async execute(req) {
     try {
+      console.log('ActivityStore execute =>');
       log.logger.info(`ActivityStore execute => ${JSON.stringify(req.decoded)}`);
       const decodedArgs = req.decoded.inArguments[0];
+      console.log('DECODED ARGS - > ' + decodedArgs);
       const accountDeMapping = await getDataXMLJD(decodedArgs, req.access_token);
+      console.log('ACCOUNTDEMAPPING - > ' + accountDeMapping);
       const getProductInfoBody = await
       requestGetProductInformationJD(accountDeMapping, decodedArgs, req.access_token);
+      console.log('getProductInfoBody - > ' + getProductInfoBody);
       return await updateDataExtensionDE(getProductInfoBody, req.access_token, decodedArgs);
     }
     catch (exception) {
