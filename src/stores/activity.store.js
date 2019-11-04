@@ -34,12 +34,15 @@ const getDataXMLJD = async (decoded, token) => {
   const accountDeMapping = new Map();
 
   if(soapRespBody.hasOwnProperty("Property")){
+    console.log('SOAP RESP BODY CONTAINS PROPERTY');
     const property = soapRespBody.RetrieveResponseMsg.Results.Properties.Property
       for (let i = 0; i < property.length; i += 1) {
+        console.log('THERE IS VALUE FOR PROPERTY - >');
         accountDeMapping.set(property[i].Name, property[i].Value);
     }
   }
   else{
+    console.log('No Property - >');
     log.logger.info('Soap Request Property Undefined');
   }
 
