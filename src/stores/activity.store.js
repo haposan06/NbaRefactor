@@ -93,170 +93,137 @@ const requestGetProductInformationJD = async (accountDeMapping, decodedArgs, tok
   }
 };
 
-// to be refined
+const prepareUpsertedDataValue = (upsertedData, jsonValue) => {
+  upsertedData.koStatusValue = jsonValue.koStatus;
+  upsertedData.statusValue = jsonValue.status;
+  upsertedData.messageValue = jsonValue.message;
+  upsertedData.channelMismatchValue = jsonValue.koReason.channelMismatch;
+  upsertedData.corporateClientsValue = jsonValue.koReason.corporateClients;
+  upsertedData.underTrustValue = jsonValue.koReason.underTrust;
+  upsertedData.servicedByValue = jsonValue.koReason.servicedBy;
+  upsertedData.customerStatusValue = jsonValue.koReason.customerStatus;
+  upsertedData.agentStatusValue = jsonValue.koReason.agentStatus;
+  upsertedData.controlGroupValue = jsonValue.koReason.controlGroup;
+  upsertedData.underBankruptcyValue = jsonValue.koReason.underBankruptcy;
+  upsertedData.foreignAddressValue = jsonValue.koReason.foreignAddress;
+  upsertedData.foreignMobileNumberValue = jsonValue.koReason.foreignMobileNumber;
+  upsertedData.phladeceasedValue = jsonValue.koReason.phladeceased;
+  upsertedData.claimStatusValue = jsonValue.koReason.claimStatus;
+  upsertedData.claimTypeValue = jsonValue.koReason.claimType;
+  upsertedData.subClaimTypeValue = jsonValue.koReason.subClaimType;
+  upsertedData.failedTotalSumAssuredTestValue = jsonValue.koReason.failedTotalSumAssuredTest;
+  upsertedData.exclusionCodeImposedValue = jsonValue.koReason.exclusionCodeImposed;
+  upsertedData.extraMoralityValue = jsonValue.koReason.extraMorality;
+  upsertedData.isSubstandardValue = jsonValue.koReason.isSubstandard;
+  upsertedData.amlwatchListValue = jsonValue.koReason.amlwatchList;
+  upsertedData.underwritingKOsValue = jsonValue.koReason.underwritingKOs;
+  upsertedData.existingProductsKOsValue = jsonValue.koReason.existingProductsKOs;
+  upsertedData.salesPersonKOsValue = jsonValue.koReason.salesPersonKOs;
+};
+
+const setUpsertDataValue = (upsertedData, decodedArgs) => JSON.stringify([
+  {
+    keys: {
+      PK: `${decodedArgs.decisionId}-${decodedArgs.journeyStepCode}`,
+      CampaignAudienceId: decodedArgs.decisionId
+    },
+    values: {
+      customerId: decodedArgs.clientId,
+      PersonContactId: decodedArgs.contactId,
+      CampaignId: decodedArgs.campaignId,
+      journeyStepCode: decodedArgs.journeyStepCode,
+      Product1Name: upsertedData.newProduct1,
+      Product1Code: upsertedData.newProduct1Code,
+      Product1Type: upsertedData.newProduct1Type,
+      Product2Name: upsertedData.newProduct2,
+      Product2Code: upsertedData.newProduct2Code,
+      Product2Type: upsertedData.newProduct2Type,
+      koStatus: upsertedData.koStatusValue,
+      Status: upsertedData.statusValue,
+      Message: upsertedData.messageValue,
+      channelMismatch: upsertedData.channelMismatchValue,
+      corporateClients: upsertedData.corporateClientsValue,
+      underTrust: upsertedData.underTrustValue,
+      servicedBy: upsertedData.servicedByValue,
+      customerStatus: upsertedData.customerStatusValue,
+      agentStatus: upsertedData.agentStatusValue,
+      controlGroup: upsertedData.controlGroupValue,
+      underBankruptcy: upsertedData.underBankruptcyValue,
+      foreignAddress: upsertedData.foreignAddressValue,
+      foreignMobileNumber: upsertedData.foreignMobileNumberValue,
+      phladeceased: upsertedData.phladeceasedValue,
+      claimStatus: upsertedData.claimStatusValue,
+      claimType: upsertedData.claimTypeValue,
+      subClaimType: upsertedData.subClaimTypeValue,
+      failedTotalSumAssuredTest: upsertedData.failedTotalSumAssuredTestValue,
+      exclusionCodeImposed: upsertedData.exclusionCodeImposedValue,
+      extraMorality: upsertedData.extraMoralityValue,
+      isSubstandard: upsertedData.isSubstandardValue,
+      amlwatchList: upsertedData.amlwatchListValue,
+      underwritingKOs: upsertedData.underwritingKOsValue,
+      existingProductsKOs: upsertedData.existingProductsKOsValue,
+      salesPersonKOs: upsertedData.salesPersonKOsValue
+    }
+  }
+]);
+
 const updateDataExtensionDE = async (body, token, decodedArgs) => {
-  let newProduct1 = '';
-  let newProduct2 = '';
-  let newProduct1Code = '';
-  let newProduct2Code = '';
-  let newProduct1Type = '';
-  let newProduct2Type = '';
-  let koStatusValue = '';
-  let statusValue = '';
-  let messageValue = '';
-
-  // koReasonFields
-  let channelMismatchValue = '';
-  let corporateClientsValue = '';
-  let underTrustValue = '';
-  let servicedByValue = '';
-  let customerStatusValue = '';
-  let agentStatusValue = ''; // here
-  let controlGroupValue = '';
-  let underBankruptcyValue = '';
-  let foreignAddressValue = '';
-  let foreignMobileNumberValue = '';
-  let phladeceasedValue = '';
-  let claimStatusValue = '';
-  let claimTypeValue = '';
-  let subClaimTypeValue = '';
-  let failedTotalSumAssuredTestValue = '';
-  let exclusionCodeImposedValue = '';
-  let extraMoralityValue = '';
-  let isSubstandardValue = '';
-  let amlwatchListValue = '';
-  let underwritingKOsValue = '';
-  let existingProductsKOsValue = '';
-  let salesPersonKOsValue = '';
-
-
+  const upsertedData = {};
   if (connectionErrorMessage.length > 0) {
-    statusValue = process.env.ERROR;
+    upsertedData.statusValue = process.env.ERROR;
     for (let i = 0; i < connectionErrorMessage.length; i += 1) {
       if (connectionErrorMessage[i] !== undefined) {
-        messageValue = connectionErrorMessage[i];
+        upsertedData.messageValue = connectionErrorMessage[i];
       }
       log.logger.info(`MESSAGE VALUE - > ${messageValue}`);
     }
   }
   else if (connectionErrorMessage.length === 0) {
     const jsonValue = JSON.parse(body);
+    await prepareUpsertedDataValue();
 
-    koStatusValue = jsonValue.koStatus;
-    statusValue = jsonValue.status;
-    messageValue = jsonValue.message;
-
-    if(jsonValue.hasOwnProperty("koReason")){
-      channelMismatchValue = jsonValue.koReason.channelMismatch;
-      corporateClientsValue = jsonValue.koReason.corporateClients;
-      underTrustValue = jsonValue.koReason.underTrust;
-      servicedByValue = jsonValue.koReason.servicedBy;
-      customerStatusValue = jsonValue.koReason.customerStatus;
-      agentStatusValue = jsonValue.koReason.agentStatus;
-      controlGroupValue = jsonValue.koReason.controlGroup;
-      underBankruptcyValue = jsonValue.koReason.underBankruptcy;
-      foreignAddressValue = jsonValue.koReason.foreignAddress;
-      foreignMobileNumberValue = jsonValue.koReason.foreignMobileNumber;
-      phladeceasedValue = jsonValue.koReason.phladeceased;
-      claimStatusValue = jsonValue.koReason.claimStatus;
-      claimTypeValue = jsonValue.koReason.claimType;
-      subClaimTypeValue = jsonValue.koReason.subClaimType;
-      failedTotalSumAssuredTestValue = jsonValue.koReason.failedTotalSumAssuredTest;
-      exclusionCodeImposedValue = jsonValue.koReason.exclusionCodeImposed;
-      extraMoralityValue = jsonValue.koReason.extraMorality;
-      isSubstandardValue = jsonValue.koReason.isSubstandard;
-      amlwatchListValue = jsonValue.koReason.amlwatchList;
-      underwritingKOsValue = jsonValue.koReason.underwritingKOs;
-      existingProductsKOsValue = jsonValue.koReason.existingProductsKOs;
-      salesPersonKOsValue = jsonValue.koReason.salesPersonKOs;
+    if (jsonValue.offerProducts.length === 0 && jsonValue.koStatus === process.env.KO_STATUS_NO) {
+      upsertedData.koStatusValue = process.env.KO_STATUS_YES;
+    }
+    else if (jsonValue.koStatus === process.env.KO_STATUS_YES
+      && jsonValue.offerProducts.length !== 0) {
+      upsertedData.koStatusValue = process.env.KO_STATUS_NO;
     }
 
-    if(jsonValue.hasOwnProperty("offerProducts") !== true || jsonValue.offerProducts.length < 2 ){
-        koStatusValue = process.env.KO_STATUS_YES;
-    } 
-
-    if (koStatusValue === process.env.KO_STATUS_NO && jsonValue.offerProducts.length >= 2) {
+    if (upsertedData.koStatusValue === process.env.KO_STATUS_NO
+      && jsonValue.offerProducts.length !== 0) {
       log.logger.info(`offer Products${jsonValue.offerProducts}`);
       const offerProductsSorted = jsonValue.offerProducts.slice(0);
       offerProductsSorted.sort((a, b) => a.productRank - b.productRank);
       for (let i = 0; i < offerProductsSorted.length; i += 1) {
         if (i === 0) {
-          newProduct1 = offerProductsSorted[i].productName;
-          newProduct1Code = offerProductsSorted[i].productCode;
-          newProduct1Type = offerProductsSorted[i].componentCode;
+          upsertedData.newProduct1 = offerProductsSorted[i].productName;
+          upsertedData.newProduct1Code = offerProductsSorted[i].productCode;
+          upsertedData.newProduct1Type = offerProductsSorted[i].componentCode;
         }
         else if (i === 1) {
-          newProduct2 = offerProductsSorted[i].productName;
-          newProduct2Code = offerProductsSorted[i].productCode;
-          newProduct2Type = offerProductsSorted[i].componentCode;
+          upsertedData.newProduct2 = offerProductsSorted[i].productName;
+          upsertedData.newProduct2Code = offerProductsSorted[i].productCode;
+          upsertedData.newProduct2Type = offerProductsSorted[i].componentCode;
         }
       }
     }
   }
 
-  let pkValue = decodedArgs.decisionId + '-' + decodedArgs.journeyStepCode;
-
-  const bodyStringInsertRowDE = 
-  [{
-    keys: {
-      pK: pkValue
-    },
-
-    values: {
-
-      customerId: decodedArgs.clientId,
-      PersonContactId: decodedArgs.contactId,
-      CampaignId: decodedArgs.campaignId,
-      journeyStepCode: decodedArgs.journeyStepCode,
-      microSegment: decodedArgs.microSegment,
-      CampaignAudienceId : decodedArgs.decisionId,
-      Product1Name: newProduct1,
-      Product1Code: newProduct1Code,
-      Product1Type: newProduct1Type,
-      Product2Name: newProduct2,
-      Product2Code: newProduct2Code,
-      Product2Type: newProduct2Type,
-      koStatus: koStatusValue,
-      Status: statusValue,
-      Message: messageValue,
-      channelMismatch: channelMismatchValue,
-      corporateClients: corporateClientsValue,
-      underTrust: underTrustValue,
-      servicedBy: servicedByValue,
-      customerStatus: customerStatusValue,
-      agentStatus: agentStatusValue,
-      controlGroup: controlGroupValue,
-      underBankruptcy: underBankruptcyValue,
-      foreignAddress: foreignAddressValue,
-      foreignMobileNumber: foreignMobileNumberValue,
-      phladeceased: phladeceasedValue,
-      claimStatus: claimStatusValue,
-      claimType: claimTypeValue,
-      subClaimType: subClaimTypeValue,
-      failedTotalSumAssuredTest: failedTotalSumAssuredTestValue,
-      exclusionCodeImposed: exclusionCodeImposedValue,
-      extraMorality: extraMoralityValue,
-      isSubstandard: isSubstandardValue,
-      amlwatchList: amlwatchListValue,
-      underwritingKOs: underwritingKOsValue,
-      existingProductsKOs: existingProductsKOsValue,
-      salesPersonKOs: salesPersonKOsValue
-    }
-  }];
-
-  const upsertDEReqHeader = {
+  const bodyStringInsertRowDE = await setUpsertDataValue(upsertedData, decodedArgs);
+  const headerInsertDE = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`
   };
-  const upsertDERequest = {
+  const optionRequestInsertDE = {
     body: bodyStringInsertRowDE,
-    headers: upsertDEReqHeader,
+    headers: headerInsertDE,
     url: `${process.env.REST_BASE_URI}hub/v1/dataevents/key:${process.env.DATA_EXTENSION_KEY}/rowset`
   };
   log.logger.info(`KO Result Request=>${JSON.stringify(upsertDERequest)}`);
   log.logger.info(`KO Result Req Body=>${JSON.stringify(bodyStringInsertRowDE)}`);
   try {
-    const { insertDEResponse, insertDEBody } = await RestUtil.post(upsertDERequest);
+    const { insertDEResponse, insertDEBody } = await RestUtil.post(optionRequestInsertDE);
     return insertDEBody;
   }
   catch (exception) {
