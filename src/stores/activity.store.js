@@ -33,9 +33,36 @@ const getDataXMLJD = async (decoded, token) => {
 
   const accountDeMapping = new Map();
 
-  if(soapRespBody.hasOwnProperty("Property")){
-    console.log('SOAP RESP BODY CONTAINS PROPERTY');
-    const property = soapRespBody.RetrieveResponseMsg.Results.Properties.Property
+  // if(soapRespBody.hasOwnProperty("Property")){
+  //   console.log('SOAP RESP BODY CONTAINS PROPERTY');
+  //   const property = soapRespBody.RetrieveResponseMsg.Results.Properties.Property
+  //     for (let i = 0; i < property.length; i += 1) {
+  //       console.log('THERE IS VALUE FOR PROPERTY - >');
+  //       accountDeMapping.set(property[i].Name, property[i].Value);
+  //   }
+  // }
+  // else{
+  //   console.log('No Property - >');
+  //   log.logger.info('Soap Request Property Undefined');
+  // }
+
+  const objectHasProperty = async (obj,prop) => {
+    for (var p in obj) {
+      if (obj.hasOwnProperty(p)) {
+          if (p === prop) {
+              return obj;
+          } else if (obj[p] instanceof Object && objectHasProperty(obj[p], prop)) {
+              return obj[p];
+          }
+      }
+    }
+    return null;
+  }
+
+  const hasProperty = objectHasProperty(soapRespBody,'Property');
+  if(hasProperty){
+    console.log('PROPERTY IS FOUND');
+    const property = soapRespBody.RetrieveResponseMsg.Results.Propertie.Property
       for (let i = 0; i < property.length; i += 1) {
         console.log('THERE IS VALUE FOR PROPERTY - >');
         accountDeMapping.set(property[i].Name, property[i].Value);
@@ -258,6 +285,7 @@ class ActivityStore {
       throw exception;
     }
   }
+  
 }
 
 module.exports = ActivityStore;
