@@ -249,7 +249,7 @@ const updateDataExtensionDE = async (body, token, decodedArgs) => {
     Authorization: `Bearer ${token}`
   };
   const upsertDERequest = {
-    body: bodyStringInsertRowDE
+    body: bodyStringInsertRowDE,
     headers: upsertDEReqHeader,
     url: `${process.env.REST_BASE_URI}hub/v1/dataevents/key:${process.env.DATA_EXTENSION_KEY}/rowset`
   };
