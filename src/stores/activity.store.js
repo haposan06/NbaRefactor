@@ -28,19 +28,20 @@ const getDataXMLJD = async (decoded, token) => {
     soapAction: 'Retrieve',
     body: xml
   };
+
   const soapRespBody = await SoapUtil.post(soapRequest);
-  const property = soapRespBody.RetrieveResponseMsg.Results;
+
   const accountDeMapping = new Map();
-  if (property === undefined) {
-    log.logger.info('Soap Request Property Undefined');
-  }
-  else {
-    // check property is existing in the response
-    const properties = soapRespBody.RetrieveResponseMsg.Results.Properties.Property;
-    for (let i = 0; i < properties.length; i += 1) {
-      accountDeMapping.set(properties[i].Name, properties[i].Value);
+
+  if(soapRespBody.hasOwnProperty("Property")){
+      for (let i = 0; i < property.length; i += 1) {
+        accountDeMapping.set(property[i].Name, properties[i].Value);
     }
   }
+  else{
+    log.logger.info('Soap Request Property Undefined');
+  }
+
   return accountDeMapping;
 };
 
@@ -81,7 +82,7 @@ const requestGetProductInformationJD = async (accountDeMapping, decodedArgs, tok
     const { response, body } = await RestUtil.post(mcRequest);
     if (body) {
       const jsonValue = JSON.parse(body);
-      if (jsonValue.status !== 'OK') {
+      if (jsonValue.status !== process.env.KO_STATUS_OK) {
         log.logger.info(`connectionErrorMessage - > ${body}`);
         connectionErrorMessage[0] = `${jsonValue.status}-${jsonValue.message}`;
       }
@@ -93,137 +94,100 @@ const requestGetProductInformationJD = async (accountDeMapping, decodedArgs, tok
   }
 };
 
-const prepareUpsertedDataValue = (upsertedData, jsonValue) => {
-  upsertedData.koStatusValue = jsonValue.koStatus;
-  upsertedData.statusValue = jsonValue.status;
-  upsertedData.messageValue = jsonValue.message;
-  upsertedData.channelMismatchValue = jsonValue.koReason.channelMismatch;
-  upsertedData.corporateClientsValue = jsonValue.koReason.corporateClients;
-  upsertedData.underTrustValue = jsonValue.koReason.underTrust;
-  upsertedData.servicedByValue = jsonValue.koReason.servicedBy;
-  upsertedData.customerStatusValue = jsonValue.koReason.customerStatus;
-  upsertedData.agentStatusValue = jsonValue.koReason.agentStatus;
-  upsertedData.controlGroupValue = jsonValue.koReason.controlGroup;
-  upsertedData.underBankruptcyValue = jsonValue.koReason.underBankruptcy;
-  upsertedData.foreignAddressValue = jsonValue.koReason.foreignAddress;
-  upsertedData.foreignMobileNumberValue = jsonValue.koReason.foreignMobileNumber;
-  upsertedData.phladeceasedValue = jsonValue.koReason.phladeceased;
-  upsertedData.claimStatusValue = jsonValue.koReason.claimStatus;
-  upsertedData.claimTypeValue = jsonValue.koReason.claimType;
-  upsertedData.subClaimTypeValue = jsonValue.koReason.subClaimType;
-  upsertedData.failedTotalSumAssuredTestValue = jsonValue.koReason.failedTotalSumAssuredTest;
-  upsertedData.exclusionCodeImposedValue = jsonValue.koReason.exclusionCodeImposed;
-  upsertedData.extraMoralityValue = jsonValue.koReason.extraMorality;
-  upsertedData.isSubstandardValue = jsonValue.koReason.isSubstandard;
-  upsertedData.amlwatchListValue = jsonValue.koReason.amlwatchList;
-  upsertedData.underwritingKOsValue = jsonValue.koReason.underwritingKOs;
-  upsertedData.existingProductsKOsValue = jsonValue.koReason.existingProductsKOs;
-  upsertedData.salesPersonKOsValue = jsonValue.koReason.salesPersonKOs;
-};
+// to be refined
+const updateDataExtensionDE = async (body, token, decodedArgs) => {
 
-const setUpsertDataValue = (upsertedData, decodedArgs) => JSON.stringify([
-  {
+  const jsonValue = JSON.parse(body);
+  let error = process.env.Error;
+  if (connectionErrorMessage.length > 0) {
+    jsonValue.status = error;
+    for (let i = 0; i < connectionErrorMessage.length; i += 1) {
+      if (connectionErrorMessage[i] !== undefined) {
+        jsonValue.message = connectionErrorMessage[i];
+      }
+      log.logger.info(`MESSAGE VALUE - > ${jsonValue.message}`);
+    }
+  }
+  else if (connectionErrorMessage.length === 0) {
+
+    if(jsonValue.hasOwnProperty("offerProducts") !== true || jsonValue.offerProducts.length < 2 ){
+      jsonValue.koStatus = process.env.KO_STATUS_YES;
+    } 
+
+    if (jsonValue.koStatus === process.env.KO_STATUS_NO && jsonValue.offerProducts.length >= 2) {
+      log.logger.info(`offer Products${jsonValue.offerProducts}`);
+      const offerProductsSorted = jsonValue.offerProducts.slice(0);
+      offerProductsSorted.sort((a, b) => a.productRank - b.productRank);
+      for (let i = 0; i < offerProductsSorted.length; i += 1) {
+        jsonValue.offerProducts[i].productName = offerProductsSorted[i].productName;
+        jsonValue.offerProducts[i].productCode = offerProductsSorted[i].productCode;
+        jsonValue.offerProducts[i].componentCode = offerProductsSorted[i].componentCode;
+      }
+    }
+  }
+
+  let pkValue = decodedArgs.decisionId + '-' + decodedArgs.journeyStepCode;
+
+  const bodyStringInsertRowDE = 
+  [{
     keys: {
-      PK: `${decodedArgs.decisionId}-${decodedArgs.journeyStepCode}`,
-      CampaignAudienceId: decodedArgs.decisionId
+      pK: pkValue
     },
+
     values: {
       customerId: decodedArgs.clientId,
       PersonContactId: decodedArgs.contactId,
       CampaignId: decodedArgs.campaignId,
       journeyStepCode: decodedArgs.journeyStepCode,
-      Product1Name: upsertedData.newProduct1,
-      Product1Code: upsertedData.newProduct1Code,
-      Product1Type: upsertedData.newProduct1Type,
-      Product2Name: upsertedData.newProduct2,
-      Product2Code: upsertedData.newProduct2Code,
-      Product2Type: upsertedData.newProduct2Type,
-      koStatus: upsertedData.koStatusValue,
-      Status: upsertedData.statusValue,
-      Message: upsertedData.messageValue,
-      channelMismatch: upsertedData.channelMismatchValue,
-      corporateClients: upsertedData.corporateClientsValue,
-      underTrust: upsertedData.underTrustValue,
-      servicedBy: upsertedData.servicedByValue,
-      customerStatus: upsertedData.customerStatusValue,
-      agentStatus: upsertedData.agentStatusValue,
-      controlGroup: upsertedData.controlGroupValue,
-      underBankruptcy: upsertedData.underBankruptcyValue,
-      foreignAddress: upsertedData.foreignAddressValue,
-      foreignMobileNumber: upsertedData.foreignMobileNumberValue,
-      phladeceased: upsertedData.phladeceasedValue,
-      claimStatus: upsertedData.claimStatusValue,
-      claimType: upsertedData.claimTypeValue,
-      subClaimType: upsertedData.subClaimTypeValue,
-      failedTotalSumAssuredTest: upsertedData.failedTotalSumAssuredTestValue,
-      exclusionCodeImposed: upsertedData.exclusionCodeImposedValue,
-      extraMorality: upsertedData.extraMoralityValue,
-      isSubstandard: upsertedData.isSubstandardValue,
-      amlwatchList: upsertedData.amlwatchListValue,
-      underwritingKOs: upsertedData.underwritingKOsValue,
-      existingProductsKOs: upsertedData.existingProductsKOsValue,
-      salesPersonKOs: upsertedData.salesPersonKOsValue
+      microSegment: decodedArgs.microSegment,
+      CampaignAudienceId : decodedArgs.decisionId,
+      Product1Name: (jsonValue.status !== error && jsonValue.offerProducts.length >= 2) ? jsonValue.offerProducts[0].productName : '',
+      Product1Code: (jsonValue.status !== error && jsonValue.offerProducts.length >= 2) ? jsonValue.offerProducts[0].productCode : '',
+      Product1Type: (jsonValue.status !== error && jsonValue.offerProducts.length >= 2) ? jsonValue.offerProducts[0].componentCode : '',
+      Product2Name: (jsonValue.status !== error && jsonValue.offerProducts.length >= 2) ? jsonValue.offerProducts[1].productName : '',
+      Product2Code: (jsonValue.status !== error && jsonValue.offerProducts.length >= 2) ? jsonValue.offerProducts[1].productCode : '',
+      Product2Type: (jsonValue.status !== error && jsonValue.offerProducts.length >= 2) ? jsonValue.offerProducts[1].componentCode : '',
+      koStatus: jsonValue.koStatus,
+      Status: jsonValue.status,
+      Message: jsonValue.message,
+      channelMismatch: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.channelMismatch : ''),
+      corporateClients: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.corporateClients : ''),
+      underTrust: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.underTrust : ''),
+      servicedBy: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.servicedBy : ''),
+      customerStatus: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.customerStatus : ''),
+      agentStatus: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.agentStatus : ''),
+      controlGroup: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.controlGroup : ''),
+      underBankruptcy: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.underBankruptcy : ''),
+      foreignAddress: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.foreignAddress : ''),
+      foreignMobileNumber: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.foreignMobileNumber : ''),
+      phladeceased: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.phladeceased : ''),
+      claimStatus: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.claimStatus : ''),
+      claimType: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.claimType : ''),
+      subClaimType: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.subClaimType : ''),
+      failedTotalSumAssuredTest: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.failedTotalSumAssuredTest : ''),
+      exclusionCodeImposed: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.exclusionCodeImposed : ''),
+      extraMorality: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.extraMorality : ''),
+      isSubstandard: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.isSubstandard : ''),
+      amlwatchList: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.amlwatchList : ''),
+      underwritingKOs: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.underwritingKOs : ''),
+      existingProductsKOs: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.existingProductsKOs : ''),
+      salesPersonKOs: (jsonValue.status !== error && jsonValue.hasOwnProperty("koReason") ? jsonValue.koReason.salesPersonKOs : '')
     }
-  }
-]);
+  }];
 
-const updateDataExtensionDE = async (body, token, decodedArgs) => {
-  const upsertedData = {};
-  if (connectionErrorMessage.length > 0) {
-    upsertedData.statusValue = process.env.ERROR;
-    for (let i = 0; i < connectionErrorMessage.length; i += 1) {
-      if (connectionErrorMessage[i] !== undefined) {
-        upsertedData.messageValue = connectionErrorMessage[i];
-      }
-      log.logger.info(`MESSAGE VALUE - > ${messageValue}`);
-    }
-  }
-  else if (connectionErrorMessage.length === 0) {
-    const jsonValue = JSON.parse(body);
-    await prepareUpsertedDataValue();
-
-    if (jsonValue.offerProducts.length === 0 && jsonValue.koStatus === process.env.KO_STATUS_NO) {
-      upsertedData.koStatusValue = process.env.KO_STATUS_YES;
-    }
-    else if (jsonValue.koStatus === process.env.KO_STATUS_YES
-      && jsonValue.offerProducts.length !== 0) {
-      upsertedData.koStatusValue = process.env.KO_STATUS_NO;
-    }
-
-    if (upsertedData.koStatusValue === process.env.KO_STATUS_NO
-      && jsonValue.offerProducts.length !== 0) {
-      log.logger.info(`offer Products${jsonValue.offerProducts}`);
-      const offerProductsSorted = jsonValue.offerProducts.slice(0);
-      offerProductsSorted.sort((a, b) => a.productRank - b.productRank);
-      for (let i = 0; i < offerProductsSorted.length; i += 1) {
-        if (i === 0) {
-          upsertedData.newProduct1 = offerProductsSorted[i].productName;
-          upsertedData.newProduct1Code = offerProductsSorted[i].productCode;
-          upsertedData.newProduct1Type = offerProductsSorted[i].componentCode;
-        }
-        else if (i === 1) {
-          upsertedData.newProduct2 = offerProductsSorted[i].productName;
-          upsertedData.newProduct2Code = offerProductsSorted[i].productCode;
-          upsertedData.newProduct2Type = offerProductsSorted[i].componentCode;
-        }
-      }
-    }
-  }
-
-  const bodyStringInsertRowDE = await setUpsertDataValue(upsertedData, decodedArgs);
-  const headerInsertDE = {
+  const upsertDEReqHeader = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`
   };
-  const optionRequestInsertDE = {
+  const upsertDERequest = {
     body: bodyStringInsertRowDE,
-    headers: headerInsertDE,
+    headers: upsertDEReqHeader,
     url: `${process.env.REST_BASE_URI}hub/v1/dataevents/key:${process.env.DATA_EXTENSION_KEY}/rowset`
   };
   log.logger.info(`KO Result Request=>${JSON.stringify(upsertDERequest)}`);
   log.logger.info(`KO Result Req Body=>${JSON.stringify(bodyStringInsertRowDE)}`);
   try {
-    const { insertDEResponse, insertDEBody } = await RestUtil.post(optionRequestInsertDE);
+    const { insertDEResponse, insertDEBody } = await RestUtil.post(upsertDERequest);
     return insertDEBody;
   }
   catch (exception) {
