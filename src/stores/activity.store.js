@@ -197,7 +197,7 @@ const updateDataExtensionDE = async (body, token, decodedArgs) => {
   let pkValue = decodedArgs.decisionId + '-' + decodedArgs.journeyStepCode;
 
   const bodyStringInsertRowDE = 
-  {
+  [{
     keys: {
       pK: pkValue
     },
@@ -242,7 +242,7 @@ const updateDataExtensionDE = async (body, token, decodedArgs) => {
       existingProductsKOs: existingProductsKOsValue,
       salesPersonKOs: salesPersonKOsValue
     }
-  };
+  }];
 
   const upsertDEReqHeader = {
     'Content-Type': 'application/json',
