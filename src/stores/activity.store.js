@@ -34,8 +34,9 @@ const getDataXMLJD = async (decoded, token) => {
   const accountDeMapping = new Map();
 
   if(soapRespBody.hasOwnProperty("Property")){
+    const property = soapRespBody.RetrieveResponseMsg.Results.Properties.Property
       for (let i = 0; i < property.length; i += 1) {
-        accountDeMapping.set(property[i].Name, properties[i].Value);
+        accountDeMapping.set(property[i].Name, property[i].Value);
     }
   }
   else{
