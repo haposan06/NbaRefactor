@@ -62,7 +62,7 @@ const getDataXMLJD = async (decoded, token) => {
   const hasProperty = objectHasProperty(soapRespBody,'Property');
   if(hasProperty){
     console.log('PROPERTY IS FOUND');
-    const property = soapRespBody.RetrieveResponseMsg.Results.Propertie.Property
+    const property = soapRespBody.RetrieveResponseMsg.Results.Properties.Property
       for (let i = 0; i < property.length; i += 1) {
         console.log('THERE IS VALUE FOR PROPERTY - >');
         accountDeMapping.set(property[i].Name, property[i].Value);
