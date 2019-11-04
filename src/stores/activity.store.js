@@ -81,7 +81,7 @@ const requestGetProductInformationJD = async (accountDeMapping, decodedArgs, tok
     const { response, body } = await RestUtil.post(mcRequest);
     if (body) {
       const jsonValue = JSON.parse(body);
-      if (jsonValue.status !== 'success') {
+      if (jsonValue.status !== 'OK') {
         log.logger.info(`connectionErrorMessage - > ${body}`);
         connectionErrorMessage[0] = `${jsonValue.status}-${jsonValue.message}`;
       }
